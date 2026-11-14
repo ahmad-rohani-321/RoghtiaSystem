@@ -1,0 +1,47 @@
+{
+  "name": "roghtiasystem-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev --host 0.0.0.0 --port 64053",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "lint": "run-s \"lint:*\"",
+    "lint:oxlint": "oxlint . --fix",
+    "lint:eslint": "eslint . --fix --cache",
+    "generate": "nuxt generate",
+    "postinstall": "nuxt prepare",
+    "test:auth": "node --test tests/auth.integration.test.mjs",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@iconify-json/lucide": "^1.2.133",
+    "@internationalized/date": "^3.12.4",
+    "@nuxt/ui": "^4.11.1",
+    "lucide-vue-next": "^1.0.0",
+    "nuxt": "^4.6.1",
+    "tailwindcss": "^4.3.3",
+    "vue": "^3.5.42"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "eslint": "^10.10.0",
+    "eslint-plugin-oxlint": "~1.82.0",
+    "npm-run-all2": "^9.0.3",
+    "oxlint": "~1.82.0",
+    "typescript": "~5.9.3",
+    "vue-tsc": "^3.3.14"
+  },
+  "overrides": {
+    "@nuxt/devtools": {
+      "simple-git": "4.0.2"
+    },
+    "fontless": {
+      "esbuild": "0.28.2"
+    }
+  },
+  "engines": {
+    "node": "^22.18.0 || >=24.12.0"
+  }
+}

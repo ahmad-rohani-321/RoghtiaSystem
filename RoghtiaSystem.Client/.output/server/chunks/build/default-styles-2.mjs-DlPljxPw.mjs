@@ -1,0 +1,5 @@
+globalThis.__timing__.logStart('Load chunks/build/default-styles-2-DlPljxPw.mjs');// app/components/PwaInstallPrompt.vue?vue&type=style&index=0&scoped=8d8e6dd9&inline&used&lang.css
+var PwaInstallPrompt_vue_vue_type_style_index_0_scoped_8d8e6dd9_inline_used_lang_default = ".pwa-install-button[data-v-8d8e6dd9]{flex-shrink:0;min-height:42px}.install-help[data-v-8d8e6dd9]{align-items:flex-start;gap:14px;display:flex}.install-help-icon[data-v-8d8e6dd9]{width:42px;height:42px;color:var(--teal);background:var(--soft);border-radius:12px;flex:none;place-items:center;display:grid}.install-help p[data-v-8d8e6dd9]{color:var(--ink);margin:0;font-size:.95rem;line-height:1.75}.install-help .install-help-note[data-v-8d8e6dd9]{color:var(--muted);margin-top:12px;font-size:.85rem}@media (width<=540px){.pwa-install-button[data-v-8d8e6dd9]{min-width:42px;padding-inline:9px}.pwa-install-button span[data-v-8d8e6dd9]{display:none}}";
+
+export { PwaInstallPrompt_vue_vue_type_style_index_0_scoped_8d8e6dd9_inline_used_lang_default as P };;globalThis.__timing__.logEnd('Load chunks/build/default-styles-2-DlPljxPw.mjs');
+//# sourceMappingURL=default-styles-2.mjs-DlPljxPw.mjs.map

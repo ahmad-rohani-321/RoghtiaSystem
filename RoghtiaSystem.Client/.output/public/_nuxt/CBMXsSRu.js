@@ -1,0 +1,1 @@
+import{t as e}from"./B68XIsJw.js";import{B as t,f as n}from"./B-_u_r1O.js";import{t as r}from"./BDNMzG2s.js";var i={};function a(r,i){let a=e;return t(),n(a)}var o=r(i,[[`render`,a]]);export{o as default};

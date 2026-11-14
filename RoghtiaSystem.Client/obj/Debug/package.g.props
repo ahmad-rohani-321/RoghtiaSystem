@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <PackageJsonName Condition="$(PackageJsonName) == ''">roghtiasystem-client</PackageJsonName>
+    <PackageJsonVersion Condition="$(PackageJsonVersion) == ''">0.0.0</PackageJsonVersion>
+    <PackageJsonPrivate Condition="$(PackageJsonPrivate) == ''">true</PackageJsonPrivate>
+    <PackageJsonType Condition="$(PackageJsonType) == ''">module</PackageJsonType>
+    <PackageJsonScriptsDev Condition="$(PackageJsonScriptsDev) == ''">nuxt dev --host 0.0.0.0 --port 64053</PackageJsonScriptsDev>
+    <PackageJsonScriptsBuild Condition="$(PackageJsonScriptsBuild) == ''">nuxt build</PackageJsonScriptsBuild>
+    <PackageJsonScriptsPreview Condition="$(PackageJsonScriptsPreview) == ''">nuxt preview</PackageJsonScriptsPreview>
+    <PackageJsonScriptsLint Condition="$(PackageJsonScriptsLint) == ''">run-s "lint:*"</PackageJsonScriptsLint>
+    <PackageJsonScriptsLintOxlint Condition="$(PackageJsonScriptsLintOxlint) == ''">oxlint . --fix</PackageJsonScriptsLintOxlint>
+    <PackageJsonScriptsLintEslint Condition="$(PackageJsonScriptsLintEslint) == ''">eslint . --fix --cache</PackageJsonScriptsLintEslint>
+    <PackageJsonScriptsGenerate Condition="$(PackageJsonScriptsGenerate) == ''">nuxt generate</PackageJsonScriptsGenerate>
+    <PackageJsonScriptsPostinstall Condition="$(PackageJsonScriptsPostinstall) == ''">nuxt prepare</PackageJsonScriptsPostinstall>
+    <PackageJsonScriptsTestAuth Condition="$(PackageJsonScriptsTestAuth) == ''">node --test tests/auth.integration.test.mjs</PackageJsonScriptsTestAuth>
+    <PackageJsonScriptsTypecheck Condition="$(PackageJsonScriptsTypecheck) == ''">nuxt typecheck</PackageJsonScriptsTypecheck>
+    <PackageJsonDependenciesIconifyJsonLucide Condition="$(PackageJsonDependenciesIconifyJsonLucide) == ''">^1.2.133</PackageJsonDependenciesIconifyJsonLucide>
+    <PackageJsonDependenciesInternationalizedDate Condition="$(PackageJsonDependenciesInternationalizedDate) == ''">^3.12.4</PackageJsonDependenciesInternationalizedDate>
+    <PackageJsonDependenciesNuxtUi Condition="$(PackageJsonDependenciesNuxtUi) == ''">^4.11.1</PackageJsonDependenciesNuxtUi>
+    <PackageJsonDependenciesLucideVueNext Condition="$(PackageJsonDependenciesLucideVueNext) == ''">^1.0.0</PackageJsonDependenciesLucideVueNext>
+    <PackageJsonDependenciesNuxt Condition="$(PackageJsonDependenciesNuxt) == ''">^4.6.1</PackageJsonDependenciesNuxt>
+    <PackageJsonDependenciesTailwindcss Condition="$(PackageJsonDependenciesTailwindcss) == ''">^4.3.3</PackageJsonDependenciesTailwindcss>
+    <PackageJsonDependenciesVue Condition="$(PackageJsonDependenciesVue) == ''">^3.5.42</PackageJsonDependenciesVue>
+    <PackageJsonDevdependenciesTypesNode Condition="$(PackageJsonDevdependenciesTypesNode) == ''">^26.6.6</PackageJsonDevdependenciesTypesNode>
+    <PackageJsonDevdependenciesEslint Condition="$(PackageJsonDevdependenciesEslint) == ''">^10.10.0</PackageJsonDevdependenciesEslint>
+    <PackageJsonDevdependenciesEslintPluginOxlint Condition="$(PackageJsonDevdependenciesEslintPluginOxlint) == ''">~1.82.0</PackageJsonDevdependenciesEslintPluginOxlint>
+    <PackageJsonDevdependenciesNpmRunAll2 Condition="$(PackageJsonDevdependenciesNpmRunAll2) == ''">^9.0.3</PackageJsonDevdependenciesNpmRunAll2>
+    <PackageJsonDevdependenciesOxlint Condition="$(PackageJsonDevdependenciesOxlint) == ''">~1.82.0</PackageJsonDevdependenciesOxlint>
+    <PackageJsonDevdependenciesTypescript Condition="$(PackageJsonDevdependenciesTypescript) == ''">~5.9.3</PackageJsonDevdependenciesTypescript>
+    <PackageJsonDevdependenciesVueTsc Condition="$(PackageJsonDevdependenciesVueTsc) == ''">^3.3.14</PackageJsonDevdependenciesVueTsc>
+    <PackageJsonOverridesNuxtDevtoolsSimpleGit Condition="$(PackageJsonOverridesNuxtDevtoolsSimpleGit) == ''">4.0.2</PackageJsonOverridesNuxtDevtoolsSimpleGit>
+    <PackageJsonOverridesFontlessEsbuild Condition="$(PackageJsonOverridesFontlessEsbuild) == ''">0.28.2</PackageJsonOverridesFontlessEsbuild>
+    <PackageJsonEnginesNode Condition="$(PackageJsonEnginesNode) == ''">^22.18.0 || &gt;=24.12.0</PackageJsonEnginesNode>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,6 @@
+@RoghtiaSystem.Server_HostAddress = http://localhost:5201
+
+GET {{RoghtiaSystem.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

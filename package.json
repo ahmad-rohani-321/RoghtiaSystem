@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@nuxt/eslint": "^1.17.0"
+  }
+}

@@ -1,0 +1,1 @@
+import{t as e}from"./CF5rWd3G.js";import"./DVUX7gbJ.js";import{n as t}from"./CyHUdmz3.js";import{B as n,f as r}from"./B-_u_r1O.js";var i={__name:`login`,setup(i){return t({title:`Sign in — RoghtiaSystem`}),(t,i)=>{let a=e;return n(),r(a)}}};export{i as default};

@@ -1,0 +1,53 @@
+globalThis.__timing__.logStart('Load chunks/_/patients');import { a as assertAuthMutation, r as requireAuthToken } from './auth.mjs';
+import { a as readLimitedBody } from './owned-api.mjs';
+import { h as getRouterParam, e as createError, l as getHeader, g as getQuery } from './nitro.mjs';
+
+function invalidPatient() {
+  return createError({ statusCode: 400, data: { code: "VALIDATION_ERROR" } });
+}
+function readPatientId(event) {
+  const value = getRouterParam(event, "id") || "";
+  const id = Number(value);
+  if (!/^\d+$/.test(value) || !Number.isSafeInteger(id) || id < 1 || id > 2147483647) {
+    throw createError({ statusCode: 404, data: { code: "NOT_FOUND" } });
+  }
+  return id;
+}
+function readPatientQuery(event) {
+  var _a, _b, _c, _d;
+  const query = getQuery(event);
+  function integer(value, fallback, max) {
+    if (value === void 0) return fallback;
+    if (typeof value !== "string" || !/^\d+$/.test(value)) throw invalidPatient();
+    const number = Number(value);
+    if (!Number.isSafeInteger(number) || number < 1 || number > max) throw invalidPatient();
+    return number;
+  }
+  const search = (_a = query.search) != null ? _a : "";
+  if (typeof search !== "string" || search.length > 200) throw invalidPatient();
+  const name = (_b = query.name) != null ? _b : "";
+  const phone = (_c = query.phone) != null ? _c : "";
+  const gender = (_d = query.gender) != null ? _d : "";
+  if (typeof name !== "string" || name.length > 200 || typeof phone !== "string" || phone.length > 32 || typeof gender !== "string" || gender && !["Male", "Female", "Other"].includes(gender)) throw invalidPatient();
+  return { page: integer(query.page, 1, 2147483647), pageSize: integer(query.pageSize, 20, 100), search: search.trim(), name: name.trim(), phone: phone.trim(), gender };
+}
+async function readPatientInput(event) {
+  var _a, _b, _c, _d;
+  assertAuthMutation(event);
+  requireAuthToken(event);
+  if (((_b = (_a = getHeader(event, "content-type")) == null ? void 0 : _a.split(";")[0]) == null ? void 0 : _b.trim().toLowerCase()) !== "application/json") throw invalidPatient();
+  const raw = await readLimitedBody(event, 16384, "VALIDATION_ERROR");
+  let value;
+  try {
+    value = JSON.parse(raw.toString("utf8"));
+  } catch {
+    throw invalidPatient();
+  }
+  if (!value || typeof value.name !== "string" || !value.name.trim() || value.name.length > 200 || value.phone != null && (typeof value.phone !== "string" || value.phone.length > 32) || typeof value.gender !== "string" || !["Male", "Female", "Other"].includes(value.gender) || typeof value.age !== "number" || !Number.isInteger(value.age) || value.age < 0 || value.age > 150 || value.address != null && (typeof value.address !== "string" || value.address.length > 1e3)) {
+    throw invalidPatient();
+  }
+  return { name: value.name.trim(), phone: ((_c = value.phone) == null ? void 0 : _c.trim()) || "", age: value.age, gender: value.gender, address: ((_d = value.address) == null ? void 0 : _d.trim()) || "" };
+}
+
+export { readPatientInput as a, readPatientQuery as b, readPatientId as r };;globalThis.__timing__.logEnd('Load chunks/_/patients');
+//# sourceMappingURL=patients.mjs.map

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="RoghtiaSystem.Client/RoghtiaSystem.Client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="RoghtiaSystem.Server/RoghtiaSystem.Server.csproj" />
+</Solution>

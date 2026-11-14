@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "http://localhost:64053",
+"RedirectUrl": "",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "D:\\Projects\\RoghtiaSystem\\RoghtiaSystem.Server\\..\\RoghtiaSystem.Client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}

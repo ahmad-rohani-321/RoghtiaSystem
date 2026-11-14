@@ -1,0 +1,1 @@
+import{r as e}from"./CFNKwytt.js";import{gt as t,u as n}from"./B-_u_r1O.js";function r(r){let i=e({dir:t(`ltr`)});return n(()=>r?.value||i.dir?.value||`ltr`)}export{r as t};

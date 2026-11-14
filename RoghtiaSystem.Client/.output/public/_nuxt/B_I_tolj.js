@@ -1,0 +1,1 @@
+import{B as e,W as t,m as n}from"./B-_u_r1O.js";import{t as r}from"./BDNMzG2s.js";var i={},a={class:`print-layout`};function o(r,i){return e(),n(`main`,a,[t(r.$slots,`default`,{},void 0,!0)])}var s=r(i,[[`render`,o],[`__scopeId`,`data-v-3eb1498a`]]);export{s as default};

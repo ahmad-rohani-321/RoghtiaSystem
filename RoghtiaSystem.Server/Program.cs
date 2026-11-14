@@ -1,0 +1,192 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using RoghtiaSystem.Server.Data;
+using RoghtiaSystem.Server.Services;
+using RoghtiaSystem.Server.ViewModels;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.RateLimiting;
+
+var migrateDevelopmentSecrets = args.Contains("--migrate-development-secrets", StringComparer.Ordinal);
+var resetDevelopmentData = args.Contains("--reset-development-data", StringComparer.Ordinal);
+var builder = WebApplication.CreateBuilder(args.Where(argument => argument is not "--migrate-development-secrets" and not "--reset-development-data").ToArray());
+SQLitePCL.Batteries_V2.Init();
+if (resetDevelopmentData)
+{
+    try
+    {
+        var backupPath = AuthOptions.ArchiveUnrecoverableDevelopmentData(builder.Environment);
+        Console.WriteLine($"Development data was archived to {backupPath}. Start the server normally to create a new empty local database and secrets.");
+    }
+    catch (InvalidOperationException exception)
+    {
+        Console.Error.WriteLine($"Development-data reset failed: {exception.Message}");
+        Environment.ExitCode = 1;
+    }
+    return;
+}
+if (migrateDevelopmentSecrets)
+{
+    try
+    {
+        AuthOptions.MigrateDevelopmentSecrets(builder.Environment);
+        Console.WriteLine("Development secrets were migrated to machine protection. The database and legacy secret files were preserved.");
+    }
+    catch (InvalidOperationException exception)
+    {
+        Console.Error.WriteLine($"Development-secret migration failed: {exception.Message}");
+        Environment.ExitCode = 1;
+    }
+    return;
+}
+AuthOptions authOptions;
+string connectionString;
+try { (authOptions, connectionString) = AuthOptions.Load(builder.Configuration, builder.Environment); }
+catch (InvalidOperationException exception)
+{
+    Console.Error.WriteLine($"Server startup failed: {exception.Message}");
+    Environment.ExitCode = 1;
+    return;
+}
+try
+{
+    EnsureDatabaseDirectory(connectionString);
+}
+catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or ArgumentException)
+{
+    Console.Error.WriteLine($"Server startup failed: cannot prepare the database location. {exception.Message}");
+    Environment.ExitCode = 1;
+    return;
+}
+var frameworkKeysDirectory = new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, ".local", "framework-keys"));
+var dataProtection = builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(frameworkKeysDirectory)
+    .SetApplicationName("RoghtiaSystem.Server");
+if (OperatingSystem.IsWindows()) dataProtection.ProtectKeysWithDpapi(protectToLocalMachine: true);
+builder.Services.AddSingleton(authOptions);
+builder.Services.AddSingleton<PasswordService>();
+builder.Services.AddSingleton<PINCodeService>();
+builder.Services.AddSingleton<TokenService>();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    options.InvalidModelStateResponseFactory = _ => new BadRequestObjectResult(new AuthError("VALIDATION_ERROR", "Please check the form details."));
+});
+builder.Services.AddOpenApi();
+builder.Services.AddDbContext<MainDbContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authOptions.SigningKey)),
+        ValidateIssuer = true,
+        ValidIssuer = authOptions.Issuer,
+        ValidateAudience = true,
+        ValidAudience = authOptions.Audience,
+        ValidateLifetime = true,
+        RequireExpirationTime = true,
+        RequireSignedTokens = true,
+        ValidAlgorithms = [SecurityAlgorithms.HmacSha512],
+        ClockSkew = TimeSpan.Zero,
+        NameClaimType = ClaimTypes.Name,
+        RoleClaimType = ClaimTypes.Role
+    };
+    options.Events = new JwtBearerEvents
+    {
+        OnTokenValidated = async context =>
+        {
+            var principal = context.Principal;
+            if (!int.TryParse(principal?.FindFirstValue(ClaimTypes.NameIdentifier), out int id)
+                || !int.TryParse(principal?.FindFirstValue(TokenService.VersionClaim) ?? "0", out int tokenVersion))
+            {
+                context.Fail("The authentication token is invalid.");
+                return;
+            }
+            var database = context.HttpContext.RequestServices.GetRequiredService<MainDbContext>();
+            var currentVersion = await database.Users.AsNoTracking().Where(u => u.Id == id)
+                .Select(u => (int?)u.TokenVersion).SingleOrDefaultAsync(context.HttpContext.RequestAborted);
+            if (currentVersion == null || currentVersion != tokenVersion)
+                context.Fail("The authentication session has ended.");
+        },
+        OnChallenge = async context =>
+        {
+            context.HandleResponse();
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            context.Response.Headers.CacheControl = "no-store";
+            await context.Response.WriteAsJsonAsync(new AuthError("UNAUTHENTICATED", "Please sign in again."));
+        },
+        OnForbidden = async context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            await context.Response.WriteAsJsonAsync(new AuthError("FORBIDDEN", "You do not have permission to perform this action."));
+        }
+    };
+});
+builder.Services.AddAuthorization(options =>
+{
+    // New API endpoints require authentication unless explicitly marked anonymous.
+    options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+});
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddPolicy("auth", context => RateLimitPartition.GetFixedWindowLimiter(
+        context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+        _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = authOptions.RateLimitPermitLimit,
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 0,
+            AutoReplenishment = true
+        }));
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+        context.HttpContext.Response.Headers.RetryAfter = "60";
+        await context.HttpContext.Response.WriteAsJsonAsync(new AuthError("TOO_MANY_REQUESTS", "Please try again later."), cancellationToken);
+    };
+});
+
+var app = builder.Build();
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    await DatabaseInitializer.InitializeAsync(scope.ServiceProvider.GetRequiredService<MainDbContext>());
+}
+if (app.Environment.IsDevelopment()) app.MapOpenApi().AllowAnonymous();
+else app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseRateLimiter();
+app.MapControllers();
+app.MapGet("/api/health", () => Results.Ok(new { status = "ok" })).AllowAnonymous();
+app.Run();
+
+static void EnsureDatabaseDirectory(string connectionString)
+{
+    var dataSource = new SqliteConnectionStringBuilder(connectionString).DataSource;
+    if (string.IsNullOrWhiteSpace(dataSource) || dataSource.Equals(":memory:", StringComparison.OrdinalIgnoreCase) || dataSource.StartsWith("file:", StringComparison.OrdinalIgnoreCase))
+        return;
+
+    var fullPath = Path.GetFullPath(dataSource);
+    var directoryPath = Path.GetDirectoryName(fullPath);
+    if (string.IsNullOrWhiteSpace(directoryPath))
+        throw new ArgumentException("The configured SQLite database path has no parent directory.");
+
+    Directory.CreateDirectory(directoryPath);
+
+    // Fail here with the exact database path when this Windows account cannot create or
+    // write the database, rather than failing later with SQLite error 14.
+    try
+    {
+        using var databaseFile = new FileStream(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
+    }
+    catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+    {
+        throw new IOException($"The configured database file '{fullPath}' is not writable by this Windows account. Check the file and its parent folder permissions.", exception);
+    }
+}
+

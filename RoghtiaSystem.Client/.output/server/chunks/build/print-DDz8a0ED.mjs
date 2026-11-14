@@ -1,0 +1,21 @@
+globalThis.__timing__.logStart('Load chunks/build/print-DDz8a0ED');import { _ as _plugin_vue_export_helper_default } from './_plugin-vue_export-helper-DjkACiAr.mjs';
+import { mergeProps, useSSRContext } from 'vue';
+import { ssrRenderAttrs, ssrRenderSlot } from 'vue/server-renderer';
+
+// app/layouts/print.vue
+var _sfc_main = {};
+function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
+	_push(`<main${ssrRenderAttrs(mergeProps({ class: "print-layout" }, _attrs))} data-v-3eb1498a>`);
+	ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+	_push(`</main>`);
+}
+var _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
+	const ssrContext = useSSRContext();
+	(ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("layouts/print.vue");
+	return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+};
+var print_default = /*#__PURE__*/ _plugin_vue_export_helper_default(_sfc_main, [["ssrRender", _sfc_ssrRender], ["__scopeId", "data-v-3eb1498a"]]);
+
+export { print_default as default };;globalThis.__timing__.logEnd('Load chunks/build/print-DDz8a0ED');
+//# sourceMappingURL=print-DDz8a0ED.mjs.map

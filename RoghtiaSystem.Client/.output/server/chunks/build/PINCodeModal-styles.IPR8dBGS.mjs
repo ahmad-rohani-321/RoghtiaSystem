@@ -1,0 +1,9 @@
+globalThis.__timing__.logStart('Load chunks/build/PINCodeModal-styles.IPR8dBGS');// app/components/PINCodeModal.vue?vue&type=style&index=0&scoped=64618333&inline&used&lang.css
+var PINCodeModal_vue_vue_type_style_index_0_scoped_64618333_inline_used_lang_default = ".pin-form[data-v-64618333]{flex-direction:column;gap:20px;display:flex}.pin-form[data-v-64618333],.pin-form[data-v-64618333]>*{min-width:0}.pin-form[data-v-64618333] .pin-input{min-width:0;min-height:46px;font-size:1rem}.pin-message[data-v-64618333]{color:var(--ink);background:var(--soft);overflow-wrap:anywhere;border-radius:9px;margin:0;padding:12px 14px;font-size:1rem;line-height:1.9}.pin-actions[data-v-64618333]{flex-wrap:wrap;gap:10px;padding-top:4px;display:flex}.pin-actions[data-v-64618333] button{white-space:normal;min-width:0;max-width:100%;min-height:44px;font-size:1rem}@media (width<=480px){.pin-actions[data-v-64618333]>*{flex:150px;justify-content:center}}";
+
+const PINCodeModalStyles_IPR8dBGS = [
+  PINCodeModal_vue_vue_type_style_index_0_scoped_64618333_inline_used_lang_default
+];
+
+export { PINCodeModalStyles_IPR8dBGS as default };;globalThis.__timing__.logEnd('Load chunks/build/PINCodeModal-styles.IPR8dBGS');
+//# sourceMappingURL=PINCodeModal-styles.IPR8dBGS.mjs.map
