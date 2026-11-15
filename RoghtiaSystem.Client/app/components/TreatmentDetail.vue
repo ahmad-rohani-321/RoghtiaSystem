@@ -8,7 +8,7 @@ const recordedDate = computed(() => props.treatment ? formatDateTime(props.treat
 </script>
 
 <template>
-  <UModal v-model:open="open" title="Treatment details" description="Saved information and prescription" dir="ltr" :ui="{ content: 'w-[min(880px,calc(100vw-1.5rem))] max-w-none min-w-0', body: 'min-w-0' }">
+  <PvModal v-model:open="open" title="Treatment details" description="Saved information and prescription" dir="ltr" :ui="{ content: 'w-[min(880px,calc(100vw-1.5rem))] max-w-none min-w-0', body: 'min-w-0' }">
     <template #body>
       <div v-if="treatment" class="treatment-detail">
         <div class="detail-header"><div><h3><bdi>{{ treatment.patient.name }}</bdi></h3><p>{{ treatment.patient.code }} · {{ recordedDate }}</p></div><span class="detail-badge">Treatments #{{ localNumber(treatment.id) }}</span></div>
@@ -25,7 +25,7 @@ const recordedDate = computed(() => props.treatment ? formatDateTime(props.treat
         <div class="detail-medicines"><h4>Prescription</h4><div v-if="treatment.prescriptionItems.length" class="detail-table-wrap"><table><thead><tr><th>No.</th><th>Medications</th><th>Type</th><th>Dose</th><th>Frequency</th><th>Duration</th></tr></thead><tbody><tr v-for="item in treatment.prescriptionItems" :key="item.id"><td>{{ localNumber(item.position) }}</td><td><bdi>{{ item.medicationName }}</bdi></td><td>{{ item.medicationType }}</td><td>{{ localNumber(item.dose) }}</td><td>{{ item.frequency }}</td><td>{{ item.duration }}</td></tr></tbody></table></div><p v-else class="detail-empty">No medications prescribed for this treatment.</p></div>
       </div>
     </template>
-  </UModal>
+  </PvModal>
 </template>
 
 <style scoped>

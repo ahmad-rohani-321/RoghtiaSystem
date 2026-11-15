@@ -1,9 +1,9 @@
 {
-  "_hash": "h6dmC1CPN0",
+  "_hash": "4WudiZSCvlsf-2iWqYEGwNrPqlQBqB46nEnZ3VH61lY",
   "project": {
     "rootDir": "D:/Projects/RoghtiaSystem/RoghtiaSystem.Client"
   },
   "versions": {
-    "nuxt": "4.6.4"
+    "nuxt": "4.1.3"
   }
 }

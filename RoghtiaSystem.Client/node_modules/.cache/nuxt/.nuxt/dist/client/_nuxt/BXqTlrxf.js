@@ -1,1 +1,0 @@
-import{S as e}from"./B-_u_r1O.js";function t(){let t=e()?.vnode?.scopeId;return t?{[t]:``}:{}}export{t};

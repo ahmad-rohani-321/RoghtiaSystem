@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { FormError, FormErrorEvent } from '@nuxt/ui'
+import type { FormError, FormErrorEvent } from '~/types/ui'
 import type { DoctorImageField, DoctorInformation } from '#shared/types/doctor-information'
 
 useHead({ title: 'Settings — RoghtiaSystem' })
 
 const profile = useDoctorInformation()
 const auth = useAuth()
-const toast = useToast()
+const toast = useAppToast()
 const doctorForm = useTemplateRef('doctorForm')
 const loading = ref(true)
 const loaded = ref(false)
@@ -171,25 +171,25 @@ onMounted(loadInformation)
 
     <section class="panel doctor-settings" aria-labelledby="doctor-information-title" :aria-busy="busy">
       <header class="settings-section-heading">
-        <span class="settings-section-icon" aria-hidden="true"><UIcon name="i-lucide-stethoscope" /></span>
+        <span class="settings-section-icon" aria-hidden="true"><PvIcon name="i-lucide-stethoscope" /></span>
         <div><h2 id="doctor-information-title">Doctor information</h2><p>Save names, profession and images for your account.</p></div>
       </header>
 
       <div v-if="loading" class="settings-state" role="status">
-        <UIcon name="i-lucide-loader-circle" class="animate-spin" aria-hidden="true" />
+        <PvIcon name="i-lucide-loader-circle" class="animate-spin" aria-hidden="true" />
         <p>Loading information…</p>
       </div>
       <div v-else-if="!loaded" class="settings-state">
-        <UIcon name="i-lucide-cloud-off" aria-hidden="true" />
+        <PvIcon name="i-lucide-cloud-off" aria-hidden="true" />
         <p role="alert">{{ serviceMessage || 'Unable to load information.' }}</p>
-        <UButton type="button" color="neutral" variant="outline" size="lg" icon="i-lucide-refresh-cw" @click="loadInformation">Try again</UButton>
+        <PvButton type="button" color="neutral" variant="outline" size="lg" icon="i-lucide-refresh-cw" @click="loadInformation">Try again</PvButton>
       </div>
-      <UForm v-else ref="doctorForm" :state="form" :validate="validate" :disabled="busy" novalidate class="doctor-form" @submit="save" @error="focusError">
+      <PvForm v-else ref="doctorForm" :state="form" :validate="validate" :disabled="busy" novalidate class="doctor-form" @submit="save" @error="focusError">
         <div class="settings-text-grid">
-          <UFormField v-for="field in fields" :key="field.name" :label="field.label" :name="field.name" size="lg" :class="{ 'full-width': field.name.startsWith('hospital') || field.multiline }" :ui="{ label: 'text-base' }">
-            <UTextarea v-if="field.multiline" v-model="form[field.name]" :name="field.name" :dir="field.direction" :maxlength="field.max" :placeholder="field.label" :spellcheck="false" :rows="3" class="w-full" :ui="{ base: 'settings-input' }" />
-            <UInput v-else v-model="form[field.name]" :name="field.name" :dir="field.direction" :maxlength="field.max" :placeholder="field.name === 'hospitalPhoneNumbers' ? 'Separate multiple phone numbers with commas' : field.label" :spellcheck="false" autocomplete="off" size="xl" class="w-full" :ui="{ base: 'settings-input' }" />
-          </UFormField>
+          <PvFormField v-for="field in fields" :key="field.name" :label="field.label" :name="field.name" size="lg" :class="{ 'full-width': field.name.startsWith('hospital') || field.multiline }" :ui="{ label: 'text-base' }">
+            <PvTextarea v-if="field.multiline" v-model="form[field.name]" :name="field.name" :dir="field.direction" :maxlength="field.max" :placeholder="field.label" :spellcheck="false" :rows="3" class="w-full" :ui="{ base: 'settings-input' }" />
+            <PvInput v-else v-model="form[field.name]" :name="field.name" :dir="field.direction" :maxlength="field.max" :placeholder="field.name === 'hospitalPhoneNumbers' ? 'Separate multiple phone numbers with commas' : field.label" :spellcheck="false" autocomplete="off" size="xl" class="w-full" :ui="{ base: 'settings-input' }" />
+          </PvFormField>
         </div>
 
         <div class="settings-images-section">
@@ -202,30 +202,30 @@ onMounted(loadInformation)
 
         <p v-if="serviceMessage" class="settings-message" role="alert">{{ serviceMessage }}</p>
         <footer class="settings-actions">
-          <span class="settings-save-state" aria-live="polite"><UIcon :name="dirty ? 'i-lucide-pencil-line' : 'i-lucide-circle-check'" aria-hidden="true" />{{ dirty ? 'You have unsaved changes' : 'All information is up to date' }}</span>
+          <span class="settings-save-state" aria-live="polite"><PvIcon :name="dirty ? 'i-lucide-pencil-line' : 'i-lucide-circle-check'" aria-hidden="true" />{{ dirty ? 'You have unsaved changes' : 'All information is up to date' }}</span>
           <div class="settings-buttons">
-            <UButton type="button" color="neutral" variant="outline" size="lg" icon="i-lucide-rotate-ccw" :disabled="!canReset" @click="confirmReset">Reset</UButton>
-            <UButton type="submit" size="lg" icon="i-lucide-save" :loading="pending && !resetOpen" :disabled="busy || !dirty" >Save changes</UButton>
+            <PvButton type="button" color="neutral" variant="outline" size="lg" icon="i-lucide-rotate-ccw" :disabled="!canReset" @click="confirmReset">Reset</PvButton>
+            <PvButton type="submit" size="lg" icon="i-lucide-save" :loading="pending && !resetOpen" :disabled="busy || !dirty" >Save changes</PvButton>
           </div>
         </footer>
-      </UForm>
+      </PvForm>
     </section>
 
-    <UModal :open="resetOpen" title="Restore defaults" description="Your saved doctor information and all three images will be cleared. This action cannot be undone." :dismissible="!pending" :close="!pending" dir="ltr" :ui="{ content: 'min-w-0', wrapper: 'min-w-0 pe-8', body: 'min-w-0 min-h-0', title: 'text-lg break-words', description: 'text-base leading-8 break-words' }" @update:open="value => { if (!pending) resetOpen = value }">
+    <PvModal :open="resetOpen" title="Restore defaults" description="Your saved doctor information and all three images will be cleared. This action cannot be undone." :dismissible="!pending" :close="!pending" dir="ltr" :ui="{ content: 'min-w-0', wrapper: 'min-w-0 pe-8', body: 'min-w-0 min-h-0', title: 'text-lg break-words', description: 'text-base leading-8 break-words' }" @update:open="value => { if (!pending) resetOpen = value }">
       <template #body><p>Reset all information to defaults?</p><p v-if="serviceMessage" class="settings-message" role="alert">{{ serviceMessage }}</p></template>
       <template #footer>
         <div class="settings-reset-actions">
-          <UButton type="button" size="lg" icon="i-lucide-rotate-ccw" :loading="pending" :disabled="pending" @click="reset">Yes, reset</UButton>
-          <UButton type="button" size="lg" color="neutral" variant="outline" :disabled="pending" @click="resetOpen = false">Cancel</UButton>
+          <PvButton type="button" size="lg" icon="i-lucide-rotate-ccw" :loading="pending" :disabled="pending" @click="reset">Yes, reset</PvButton>
+          <PvButton type="button" size="lg" color="neutral" variant="outline" :disabled="pending" @click="resetOpen = false">Cancel</PvButton>
         </div>
       </template>
-    </UModal>
+    </PvModal>
     <section class="panel pin-settings" aria-labelledby="pin-settings-title">
       <header class="settings-section-heading">
-        <span class="settings-section-icon" aria-hidden="true"><UIcon name="i-lucide-key-round" /></span>
+        <span class="settings-section-icon" aria-hidden="true"><PvIcon name="i-lucide-key-round" /></span>
         <div><h2 id="pin-settings-title">Password recovery PIN</h2><p>Choose a recovery PIN or update it. Existing accounts can also set a PIN here.</p></div>
       </header>
-      <div class="pin-settings-action"><UButton type="button" size="lg" icon="i-lucide-shield-check" @click="pinOpen = true">Set or change PIN</UButton></div>
+      <div class="pin-settings-action"><PvButton type="button" size="lg" icon="i-lucide-shield-check" @click="pinOpen = true">Set or change PIN</PvButton></div>
     </section>
     <PINCodeModal v-model:open="pinOpen" />
   </section>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { FormError, FormErrorEvent } from '@nuxt/ui'
+import type { FormError, FormErrorEvent } from '~/types/ui'
 
 const open = defineModel<boolean>('open', { default: false })
 const auth = useAuth()
-const toast = useToast()
+const toast = useAppToast()
 const form = useTemplateRef('passwordForm')
 const pending = ref(false)
 const serviceMessage = ref('')
@@ -97,7 +97,7 @@ watch(credentials, () => { serviceMessage.value = '' })
 </script>
 
 <template>
-  <UModal
+  <PvModal
     :open="open"
     title="Change password"
     description="After changing your password, sign in again with the new password."
@@ -108,23 +108,23 @@ watch(credentials, () => { serviceMessage.value = '' })
     @update:open="value => { if (!pending) open = value }"
   >
     <template #body>
-      <UForm ref="passwordForm" :state="credentials" :validate="validate" :disabled="pending" :loading-auto="false" novalidate class="password-form" @submit="submit" @error="focusError">
-        <UFormField v-for="field in fields" :key="field.name" :label="field.label" :name="field.name" size="lg" required>
-          <UInput v-model="credentials[field.name]" :name="field.name" :type="visible[field.name] ? 'text' : 'password'" :autocomplete="field.autocomplete" :placeholder="field.label" icon="i-lucide-lock-keyhole" size="xl" class="w-full" :ui="{ base: 'password-input' }">
+      <PvForm ref="passwordForm" :state="credentials" :validate="validate" :disabled="pending" :loading-auto="false" novalidate class="password-form" @submit="submit" @error="focusError">
+        <PvFormField v-for="field in fields" :key="field.name" :label="field.label" :name="field.name" size="lg" required>
+          <PvInput v-model="credentials[field.name]" :name="field.name" :type="visible[field.name] ? 'text' : 'password'" :autocomplete="field.autocomplete" :placeholder="field.label" icon="i-lucide-lock-keyhole" size="xl" class="w-full" :ui="{ base: 'password-input' }">
             <template #trailing>
-              <UButton type="button" color="neutral" variant="ghost" size="sm" :disabled="pending" :icon="visible[field.name] ? 'i-lucide-eye-off' : 'i-lucide-eye'" :aria-label="`${field.label}: ${visible[field.name] ? 'Hide' : 'Show'}`" :aria-pressed="visible[field.name]" @click="visible[field.name] = !visible[field.name]" />
+              <PvButton type="button" color="neutral" variant="ghost" size="sm" :disabled="pending" :icon="visible[field.name] ? 'i-lucide-eye-off' : 'i-lucide-eye'" :aria-label="`${field.label}: ${visible[field.name] ? 'Hide' : 'Show'}`" :aria-pressed="visible[field.name]" @click="visible[field.name] = !visible[field.name]" />
             </template>
-          </UInput>
-        </UFormField>
+          </PvInput>
+        </PvFormField>
         <p class="password-help">New password must contain 8 to 128 characters.</p>
         <p v-if="serviceMessage" class="password-message" role="alert">{{ serviceMessage }}</p>
         <div class="password-actions">
-          <UButton type="submit" size="lg" icon="i-lucide-key-round" :loading="pending" :disabled="pending">Change password</UButton>
-          <UButton type="button" size="lg" color="neutral" variant="outline" :disabled="pending" @click="open = false">Cancel</UButton>
+          <PvButton type="submit" size="lg" icon="i-lucide-key-round" :loading="pending" :disabled="pending">Change password</PvButton>
+          <PvButton type="button" size="lg" color="neutral" variant="outline" :disabled="pending" @click="open = false">Cancel</PvButton>
         </div>
-      </UForm>
+      </PvForm>
     </template>
-  </UModal>
+  </PvModal>
 </template>
 
 <style scoped>

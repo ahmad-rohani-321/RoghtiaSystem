@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormError, FormErrorEvent } from '@nuxt/ui'
+import type { FormError, FormErrorEvent } from '~/types/ui'
 import type { Medication, MedicationInput } from '#shared/types/medication'
 
 const open = defineModel<boolean>('open', { default: false })
@@ -7,7 +7,7 @@ const props = defineProps<{ medication: Medication | null }>()
 const emit = defineEmits<{ saved: [medication: Medication, created: boolean] }>()
 const api = useMedications()
 const auth = useAuth()
-const toast = useToast()
+const toast = useAppToast()
 const nuxtApp = useNuxtApp()
 const form = useTemplateRef('medicationForm')
 const pending = ref(false)
@@ -114,7 +114,7 @@ watch(open, (value) => {
 </script>
 
 <template>
-  <UModal
+  <PvModal
     :open="open"
     :title="editing ? 'Edit medication' : 'New medication'"
     description="Enter the medication name, type and quantity."
@@ -125,34 +125,34 @@ watch(open, (value) => {
     @update:open="value => { if (!pending) open = value }"
   >
     <template #body>
-      <UForm ref="medicationForm" :state="state" :validate="validate" :disabled="pending" :loading-auto="false" novalidate class="medication-form" @submit="save" @error="focusError">
+      <PvForm ref="medicationForm" :state="state" :validate="validate" :disabled="pending" :loading-auto="false" novalidate class="medication-form" @submit="save" @error="focusError">
         <div class="medication-owner">
-          <UIcon name="i-lucide-user-round" aria-hidden="true" />
+          <PvIcon name="i-lucide-user-round" aria-hidden="true" />
           <span>User: <bdi>{{ auth.user.value?.userName }}</bdi></span>
           <span v-if="medication" class="medication-reference">ID: {{ localNumber(medication.id) }}</span>
         </div>
-        <UFormField name="name" label="Medication name" size="lg" required :ui="{ label: 'text-base' }">
-          <UInput v-model="state.name" name="name" dir="auto" :maxlength="200" placeholder="Enter medication name" autocomplete="off" size="xl" class="w-full" :ui="{ base: 'medication-input' }" />
-        </UFormField>
+        <PvFormField name="name" label="Medication name" size="lg" required :ui="{ label: 'text-base' }">
+          <PvInput v-model="state.name" name="name" dir="auto" :maxlength="200" placeholder="Enter medication name" autocomplete="off" size="xl" class="w-full" :ui="{ base: 'medication-input' }" />
+        </PvFormField>
         <div class="medication-form-grid">
-          <UFormField name="type" label="Medication type" size="lg" required :ui="{ label: 'text-base' }">
-            <USelectMenu v-model="state.type" :items="medicationTypes" name="type" searchable searchable-placeholder="Search medication types" placeholder="Select medication type" size="xl" class="w-full" :ui="{ base: 'medication-input' }" />
-          </UFormField>
-          <UFormField name="quantity" label="Quantity" hint="Optional · defaults to 0" size="lg" :ui="{ label: 'text-base' }">
-            <UInput v-model="state.quantity" name="quantity" type="number" inputmode="numeric" :min="0" :max="2147483647" :step="1" size="xl" class="w-full" :ui="{ base: 'medication-input' }" />
-          </UFormField>
+          <PvFormField name="type" label="Medication type" size="lg" required :ui="{ label: 'text-base' }">
+            <PvSelectMenu v-model="state.type" :items="medicationTypes" name="type" searchable searchable-placeholder="Search medication types" placeholder="Select medication type" size="xl" class="w-full" :ui="{ base: 'medication-input' }" />
+          </PvFormField>
+          <PvFormField name="quantity" label="Quantity" hint="Optional · defaults to 0" size="lg" :ui="{ label: 'text-base' }">
+            <PvInput v-model="state.quantity" name="quantity" type="number" inputmode="numeric" :min="0" :max="2147483647" :step="1" size="xl" class="w-full" :ui="{ base: 'medication-input' }" />
+          </PvFormField>
         </div>
-        <UFormField name="remarks" label="Remarks" hint="Optional" size="lg" :ui="{ label: 'text-base' }">
-          <UTextarea v-model="state.remarks" name="remarks" dir="auto" :maxlength="1000" :rows="3" placeholder="Enter any additional information" size="xl" class="w-full" :ui="{ base: 'medication-input medication-remarks-input' }" />
-        </UFormField>
+        <PvFormField name="remarks" label="Remarks" hint="Optional" size="lg" :ui="{ label: 'text-base' }">
+          <PvTextarea v-model="state.remarks" name="remarks" dir="auto" :maxlength="1000" :rows="3" placeholder="Enter any additional information" size="xl" class="w-full" :ui="{ base: 'medication-input medication-remarks-input' }" />
+        </PvFormField>
         <p v-if="serviceMessage" class="medication-message" role="alert">{{ serviceMessage }}</p>
         <div class="medication-form-actions">
-          <UButton type="submit" size="lg" icon="i-lucide-save" :loading="pending" :disabled="pending">{{ editing ? 'Save changes' : 'Add medication' }}</UButton>
-          <UButton type="button" size="lg" color="neutral" variant="outline" :disabled="pending" @click="open = false">Cancel</UButton>
+          <PvButton type="submit" size="lg" icon="i-lucide-save" :loading="pending" :disabled="pending">{{ editing ? 'Save changes' : 'Add medication' }}</PvButton>
+          <PvButton type="button" size="lg" color="neutral" variant="outline" :disabled="pending" @click="open = false">Cancel</PvButton>
         </div>
-      </UForm>
+      </PvForm>
     </template>
-  </UModal>
+  </PvModal>
 </template>
 
 <style scoped>

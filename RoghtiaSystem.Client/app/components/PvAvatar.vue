@@ -1,0 +1,2 @@
+<script setup lang="ts">import Avatar from 'primevue/avatar'; defineOptions({inheritAttrs:false}); defineProps<{src?:string;alt?:string;text?:string}>()</script>
+<template><Avatar v-bind="$attrs" :image="src" :label="src ? undefined : text" shape="circle" /></template>

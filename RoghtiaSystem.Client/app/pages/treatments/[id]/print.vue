@@ -16,7 +16,7 @@ const printPending = ref(false)
 const printAsA5 = ref(route.query.a5 === '1')
 const printGrayscale = ref(route.query.grayscale === '1')
 const printPreferencesReady = ref(false)
-const toast = useToast()
+const toast = useAppToast()
 let printPreferencesSaveTask: Promise<void> = Promise.resolve()
 
 const info = computed(() => doctor.information.value)
@@ -121,15 +121,15 @@ onMounted(loadTreatment)
 
 <template>
   <div class="print-page" :class="{ 'print-page-a5': printAsA5 }">
-    <div v-if="loading" class="print-state" role="status"><UIcon name="i-lucide-loader-circle" class="animate-spin" />Loading treatment…</div>
-    <div v-else-if="loadError" class="print-state print-error" role="alert"><span>{{ loadError }}</span><UButton type="button" color="neutral" variant="outline" icon="i-lucide-refresh-cw" @click="loadTreatment">Try again</UButton><UButton to="/treatments" color="neutral" variant="ghost">Back</UButton></div>
+    <div v-if="loading" class="print-state" role="status"><PvIcon name="i-lucide-loader-circle" class="animate-spin" />Loading treatment…</div>
+    <div v-else-if="loadError" class="print-state print-error" role="alert"><span>{{ loadError }}</span><PvButton type="button" color="neutral" variant="outline" icon="i-lucide-refresh-cw" @click="loadTreatment">Try again</PvButton><PvButton to="/treatments" color="neutral" variant="ghost">Back</PvButton></div>
     <template v-else-if="treatment">
     <div class="print-toolbar">
-      <UButton to="/treatments" color="neutral" variant="outline" icon="i-lucide-arrow-left">Back</UButton>
+      <PvButton to="/treatments" color="neutral" variant="outline" icon="i-lucide-arrow-left">Back</PvButton>
       <div class="print-toolbar-actions">
-        <UButton to="/treatments/new" color="primary" variant="soft" icon="i-lucide-plus">New</UButton>
+        <PvButton to="/treatments/new" color="primary" variant="soft" icon="i-lucide-plus">New</PvButton>
         <PrescriptionPrintOptions v-model:a5="printAsA5" v-model:grayscale="printGrayscale" />
-        <UButton type="button" icon="i-lucide-printer" :loading="printPending" @click="printDocument">Print</UButton>
+        <PvButton type="button" icon="i-lucide-printer" :loading="printPending" @click="printDocument">Print</PvButton>
       </div>
     </div>
     <article class="print-sheet" :class="{ 'print-sheet-a5': printAsA5, 'print-sheet-grayscale': printGrayscale }" dir="ltr" aria-label="Printable treatment prescription">
@@ -147,7 +147,7 @@ onMounted(loadTreatment)
         </div>
       </header>
 
-      <section class="patient-box"><h2><UIcon name="i-lucide-user-round" /> Patient information</h2><div class="patient-grid"><dl><div><dt>Name</dt><dd><bdi>{{ treatment.patient.name }}</bdi></dd></div><div><dt>Code</dt><dd dir="ltr">{{ treatment.patient.code }}</dd></div><div><dt>Age / Gender</dt><dd>{{ localNumber(treatment.patient.age) }} years / {{ genders[treatment.patient.gender] || treatment.patient.gender }}</dd></div><div><dt>Phone</dt><dd dir="ltr">{{ treatment.patient.phone || '—' }}</dd></div></dl><dl><div><dt>Date</dt><dd>{{ dateParts[0] }}</dd></div><div><dt>Time</dt><dd dir="ltr">{{ dateParts[1] }}</dd></div><div><dt>Blood pressure</dt><dd dir="ltr">{{ treatment.bloodPressure || '—' }}</dd></div><div><dt>Address</dt><dd><bdi>{{ treatment.patient.address || '—' }}</bdi></dd></div></dl></div></section>
+      <section class="patient-box"><h2><PvIcon name="i-lucide-user-round" /> Patient information</h2><div class="patient-grid"><dl><div><dt>Name</dt><dd><bdi>{{ treatment.patient.name }}</bdi></dd></div><div><dt>Code</dt><dd dir="ltr">{{ treatment.patient.code }}</dd></div><div><dt>Age / Gender</dt><dd>{{ localNumber(treatment.patient.age) }} years / {{ genders[treatment.patient.gender] || treatment.patient.gender }}</dd></div><div><dt>Phone</dt><dd dir="ltr">{{ treatment.patient.phone || '—' }}</dd></div></dl><dl><div><dt>Date</dt><dd>{{ dateParts[0] }}</dd></div><div><dt>Time</dt><dd dir="ltr">{{ dateParts[1] }}</dd></div><div><dt>Blood pressure</dt><dd dir="ltr">{{ treatment.bloodPressure || '—' }}</dd></div><div><dt>Address</dt><dd><bdi>{{ treatment.patient.address || '—' }}</bdi></dd></div></dl></div></section>
 
       <template v-if="treatment.prescriptionItems.length">
         <div class="rx-heading"><div class="rx-title"><span class="rx-mark">R<sub>x</sub></span><h2>Prescription</h2></div></div>
@@ -155,10 +155,10 @@ onMounted(loadTreatment)
       </template>
 
       <div v-if="clinicalNotesText || additionalInstructionsText || diagnosticsText || investigationsText" class="prescription-notes-grid">
-        <section v-if="clinicalNotesText" class="notes-box rx-note-box"><h2><UIcon name="i-lucide-clipboard-list" /> Clinical notes</h2><p><bdi>{{ clinicalNotesText }}</bdi></p></section>
-        <section v-if="additionalInstructionsText" class="instructions-box rx-note-box" aria-label="Additional instructions"><h2><UIcon name="i-lucide-info" /> Additional instructions</h2><p><bdi>{{ additionalInstructionsText }}</bdi></p></section>
-        <section v-if="diagnosticsText" class="instructions-box rx-note-box" aria-label="Diagnostics"><h2><UIcon name="i-lucide-microscope" /> Diagnostics</h2><p><bdi>{{ diagnosticsText }}</bdi></p></section>
-        <section v-if="investigationsText" class="instructions-box rx-note-box" aria-label="Investigations"><h2><UIcon name="i-lucide-microscope" /> Investigations</h2><p><bdi>{{ investigationsText }}</bdi></p></section>
+        <section v-if="clinicalNotesText" class="notes-box rx-note-box"><h2><PvIcon name="i-lucide-clipboard-list" /> Clinical notes</h2><p><bdi>{{ clinicalNotesText }}</bdi></p></section>
+        <section v-if="additionalInstructionsText" class="instructions-box rx-note-box" aria-label="Additional instructions"><h2><PvIcon name="i-lucide-info" /> Additional instructions</h2><p><bdi>{{ additionalInstructionsText }}</bdi></p></section>
+        <section v-if="diagnosticsText" class="instructions-box rx-note-box" aria-label="Diagnostics"><h2><PvIcon name="i-lucide-microscope" /> Diagnostics</h2><p><bdi>{{ diagnosticsText }}</bdi></p></section>
+        <section v-if="investigationsText" class="instructions-box rx-note-box" aria-label="Investigations"><h2><PvIcon name="i-lucide-microscope" /> Investigations</h2><p><bdi>{{ investigationsText }}</bdi></p></section>
       </div>
 
       <footer class="sheet-footer"><div class="signature-block"><strong>Free follow up upto 3 days</strong></div><div class="footer-date"><span>Doctor signature: ________________</span></div><div v-if="hospitalAddress || hospitalPhoneNumbers" class="hospital-footer"><span v-if="hospitalAddress">Address: <bdi>{{ hospitalAddress }}</bdi></span><span v-if="hospitalPhoneNumbers" dir="ltr">Phone: {{ hospitalPhoneNumbers }}</span></div></footer>

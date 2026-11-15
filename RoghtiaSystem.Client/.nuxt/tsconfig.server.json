@@ -29,20 +29,32 @@
       "@@/*": [
         "../*"
       ],
-      "@nuxt/devtools": [
-        "../node_modules/@nuxt/devtools"
+      "nitropack/types": [
+        "../node_modules/nitropack/types"
       ],
-      "@nuxt/schema": [
-        "../node_modules/@nuxt/schema"
+      "nitropack/runtime": [
+        "../node_modules/nitropack/runtime"
       ],
-      "nuxt": [
-        "../node_modules/nuxt"
+      "nitropack": [
+        "../node_modules/nitropack"
       ],
-      "@nuxt/icon": [
-        "../node_modules/@nuxt/icon"
+      "defu": [
+        "../node_modules/defu"
+      ],
+      "h3": [
+        "../node_modules/h3"
+      ],
+      "consola": [
+        "../node_modules/consola"
+      ],
+      "ofetch": [
+        "../node_modules/ofetch"
       ],
       "@unhead/vue": [
         "../node_modules/@unhead/vue"
+      ],
+      "@nuxt/devtools": [
+        "../node_modules/@nuxt/devtools"
       ],
       "@vue/runtime-core": [
         "../node_modules/@vue/runtime-core"
@@ -54,52 +66,25 @@
         "../node_modules/vue-router"
       ],
       "vue-router/auto-routes": [
-        "../node_modules/vue-router/vue-router-auto-routes.d.mts"
+        "../node_modules/vue-router/vue-router-auto-routes"
+      ],
+      "unplugin-vue-router/client": [
+        "../node_modules/unplugin-vue-router/client"
+      ],
+      "@nuxt/schema": [
+        "../node_modules/nuxt/node_modules/@nuxt/schema"
+      ],
+      "nuxt": [
+        "../node_modules/nuxt"
       ],
       "vite/client": [
         "../node_modules/vite/client"
-      ],
-      "@nuxtjs/color-mode": [
-        "../node_modules/@nuxtjs/color-mode"
-      ],
-      "defu": [
-        "../node_modules/defu"
-      ],
-      "consola": [
-        "../node_modules/consola"
-      ],
-      "ofetch": [
-        "../node_modules/ofetch"
-      ],
-      "nuxt/schema": [
-        "../node_modules/@nuxt/schema"
-      ],
-      "nitropack/types": [
-        "../node_modules/nitropack/types"
-      ],
-      "nitropack/runtime": [
-        "../node_modules/nitropack/runtime"
-      ],
-      "nitropack": [
-        "../node_modules/nitropack"
-      ],
-      "h3": [
-        "../node_modules/h3"
-      ],
-      "crossws": [
-        "../node_modules/crossws"
       ],
       "#shared": [
         "../shared"
       ],
       "#shared/*": [
         "../shared/*"
-      ],
-      "#server": [
-        "../server"
-      ],
-      "#server/*": [
-        "../server/*"
       ],
       "#build": [
         "./"
@@ -108,47 +93,20 @@
         "./*"
       ],
       "#internal/nuxt/paths": [
-        "../node_modules/@nuxt/nitro-server/dist/runtime/utils/paths"
+        "../node_modules/nuxt/dist/core/runtime/nitro/utils/paths"
       ],
-      "nuxt/app": [
-        "../node_modules/nuxt/dist/app"
-      ],
-      "nuxt/app/*": [
-        "../node_modules/nuxt/dist/app/*"
-      ],
-      "#ui": [
-        "../node_modules/@nuxt/ui/dist/runtime"
-      ],
-      "#ui/*": [
-        "../node_modules/@nuxt/ui/dist/runtime/*"
+      "#primevue-style": [
+        "./primevue-style.mjs"
       ],
       "#unhead/composables": [
         "../node_modules/nuxt/dist/head/runtime/composables"
-      ],
-      "#nuxt-icon-server-bundle": [
-        "./nuxt-icon-server-bundle"
-      ],
-      "#app/island-hash": [
-        "../node_modules/nuxt/dist/app/island-hash"
-      ],
-      "#app/island-props": [
-        "../node_modules/nuxt/dist/app/island-props"
-      ],
-      "#app/internal/*": [
-        "../node_modules/nuxt/dist/app/internal/*"
-      ],
-      "#app/types": [
-        "../node_modules/nuxt/dist/app/types"
       ]
     },
     "lib": [
       "esnext",
       "webworker",
       "dom.iterable"
-    ],
-    "noUncheckedIndexedAccess": true,
-    "allowArbitraryExtensions": true,
-    "allowImportingTsExtensions": true
+    ]
   },
   "include": [
     "./types/nitro-nuxt.d.ts",
@@ -156,19 +114,18 @@
     "../node_modules/dist/runtime/server",
     "../../node_modules/runtime/server",
     "../../node_modules/dist/runtime/server",
-    "../server/**/*",
     "../shared/**/*.d.ts",
-    "./types/nitro.d.ts"
+    "./types/nitro.d.ts",
+    "../server/**/*"
   ],
   "exclude": [
     "../node_modules",
     "../../node_modules",
     "../node_modules/nuxt/node_modules",
-    "../node_modules/@nuxt/ui/node_modules",
+    "../node_modules/@primevue/nuxt-module/node_modules",
+    "../node_modules/@nuxtjs/color-mode/node_modules",
     "../../node_modules/@nuxt/eslint/node_modules",
     "../node_modules/@nuxt/telemetry/node_modules",
-    "../node_modules/@nuxt/icon/node_modules",
-    "../node_modules/@nuxtjs/color-mode/node_modules",
     "../dist"
   ]
 }

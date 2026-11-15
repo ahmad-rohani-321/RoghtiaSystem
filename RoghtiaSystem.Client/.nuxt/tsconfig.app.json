@@ -1,20 +1,32 @@
 {
   "compilerOptions": {
     "paths": {
-      "@nuxt/devtools": [
-        "../node_modules/@nuxt/devtools"
+      "nitropack/types": [
+        "../node_modules/nitropack/types"
       ],
-      "@nuxt/schema": [
-        "../node_modules/@nuxt/schema"
+      "nitropack/runtime": [
+        "../node_modules/nitropack/runtime"
       ],
-      "nuxt": [
-        "../node_modules/nuxt"
+      "nitropack": [
+        "../node_modules/nitropack"
       ],
-      "@nuxt/icon": [
-        "../node_modules/@nuxt/icon"
+      "defu": [
+        "../node_modules/defu"
+      ],
+      "h3": [
+        "../node_modules/h3"
+      ],
+      "consola": [
+        "../node_modules/consola"
+      ],
+      "ofetch": [
+        "../node_modules/ofetch"
       ],
       "@unhead/vue": [
         "../node_modules/@unhead/vue"
+      ],
+      "@nuxt/devtools": [
+        "../node_modules/@nuxt/devtools"
       ],
       "@vue/runtime-core": [
         "../node_modules/@vue/runtime-core"
@@ -26,25 +38,19 @@
         "../node_modules/vue-router"
       ],
       "vue-router/auto-routes": [
-        "../node_modules/vue-router/vue-router-auto-routes.d.mts"
+        "../node_modules/vue-router/vue-router-auto-routes"
+      ],
+      "unplugin-vue-router/client": [
+        "../node_modules/unplugin-vue-router/client"
+      ],
+      "@nuxt/schema": [
+        "../node_modules/nuxt/node_modules/@nuxt/schema"
+      ],
+      "nuxt": [
+        "../node_modules/nuxt"
       ],
       "vite/client": [
-        "../node_modules/vite/client.d.ts"
-      ],
-      "@nuxtjs/color-mode": [
-        "../node_modules/@nuxtjs/color-mode"
-      ],
-      "defu": [
-        "../node_modules/defu"
-      ],
-      "consola": [
-        "../node_modules/consola"
-      ],
-      "ofetch": [
-        "../node_modules/ofetch"
-      ],
-      "nuxt/schema": [
-        "../node_modules/@nuxt/schema"
+        "../node_modules/vite/client"
       ],
       "~": [
         "../app"
@@ -76,32 +82,17 @@
       "#shared/*": [
         "../shared/*"
       ],
-      "#server": [
-        "../server"
-      ],
-      "#server/*": [
-        "../server/*"
-      ],
       "#app": [
         "../node_modules/nuxt/dist/app"
       ],
       "#app/*": [
         "../node_modules/nuxt/dist/app/*"
       ],
-      "nuxt/app": [
-        "../node_modules/nuxt/dist/app"
-      ],
-      "nuxt/app/*": [
-        "../node_modules/nuxt/dist/app/*"
-      ],
       "vue-demi": [
         "../node_modules/nuxt/dist/app/compat/vue-demi"
       ],
-      "#ui": [
-        "../node_modules/@nuxt/ui/dist/runtime"
-      ],
-      "#ui/*": [
-        "../node_modules/@nuxt/ui/dist/runtime/*"
+      "#primevue-style": [
+        "./primevue-style.mjs"
       ],
       "#vue-router": [
         "../node_modules/vue-router"
@@ -113,28 +104,10 @@
         "./imports"
       ],
       "#app-manifest": [
-        "./types/app-manifest"
+        "./manifest/meta/dev.json"
       ],
       "#components": [
         "./components"
-      ],
-      "@nuxt/nitro-server/request-types": [
-        "../node_modules/@nuxt/nitro-server/dist/request-types.d.mts"
-      ],
-      "nitropack/types": [
-        "../node_modules/nitropack/types.d.ts"
-      ],
-      "nitropack/runtime": [
-        "../node_modules/nitropack/runtime.d.ts"
-      ],
-      "nitropack": [
-        "../node_modules/nitropack"
-      ],
-      "h3": [
-        "../node_modules/h3"
-      ],
-      "crossws": [
-        "../node_modules/crossws"
       ],
       "#build": [
         "."
@@ -147,12 +120,10 @@
     "skipLibCheck": true,
     "target": "ESNext",
     "allowJs": true,
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "allowArbitraryExtensions": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "forceConsistentCasingInFileNames": true,
@@ -165,7 +136,6 @@
       "dom.iterable",
       "webworker"
     ],
-    "libReplacement": false,
     "jsx": "preserve",
     "jsxImportSource": "vue",
     "types": [],
@@ -178,114 +148,42 @@
     "./nuxt.d.ts",
     "../app/**/*",
     "../modules/*/runtime/**/*",
-    "../test/nuxt/**/*",
-    "../tests/nuxt/**/*",
     "../layers/*/app/**/*",
     "../layers/*/modules/*/runtime/**/*",
     "../shared/**/*.d.ts",
     "../modules/*/shared/**/*.d.ts",
     "../layers/*/shared/**/*.d.ts",
     "../*.d.ts",
-    "../layers/*/*.d.ts",
-    "../app/**/*.vue",
-    "../modules/*/runtime/**/*.vue",
-    "../test/nuxt/**/*.vue",
-    "../tests/nuxt/**/*.vue",
-    "../layers/*/app/**/*.vue",
-    "../layers/*/modules/*/runtime/**/*.vue"
+    "../layers/*/*.d.ts"
   ],
   "exclude": [
     "../node_modules",
     "../../node_modules",
     "../node_modules/nuxt/node_modules",
-    "../node_modules/@nuxt/ui/node_modules",
+    "../node_modules/@primevue/nuxt-module/node_modules",
+    "../node_modules/@nuxtjs/color-mode/node_modules",
     "../../node_modules/@nuxt/eslint/node_modules",
     "../node_modules/@nuxt/telemetry/node_modules",
-    "../node_modules/@nuxt/icon/node_modules",
-    "../node_modules/@nuxtjs/color-mode/node_modules",
     "../dist",
     "../.data",
-    "../server/**/*",
     "../modules/*/runtime/server/**/*",
     "../layers/*/server/**/*",
     "../layers/*/modules/*/runtime/server/**/*",
-    "../modules/*.mjs",
-    "../modules/*.js",
-    "../modules/*.cjs",
-    "../modules/*.mts",
-    "../modules/*.ts",
-    "../modules/*.cts",
-    "../modules/*.tsx",
-    "../modules/*.jsx",
-    "../modules/*.vue",
+    "../modules/*.*",
     "../nuxt.config.*",
     "../.config/nuxt.*",
     "../layers/*/nuxt.config.*",
     "../layers/*/.config/nuxt.*",
-    "../layers/*/modules/*.mjs",
-    "../layers/*/modules/*.js",
-    "../layers/*/modules/*.cjs",
-    "../layers/*/modules/*.mts",
-    "../layers/*/modules/*.ts",
-    "../layers/*/modules/*.cts",
-    "../layers/*/modules/*.tsx",
-    "../layers/*/modules/*.jsx",
-    "../layers/*/modules/*.vue",
-    "../layers/*/modules/*/*.mjs",
-    "../layers/*/modules/*/*.js",
-    "../layers/*/modules/*/*.cjs",
-    "../layers/*/modules/*/*.mts",
-    "../layers/*/modules/*/*.ts",
-    "../layers/*/modules/*/*.cts",
-    "../layers/*/modules/*/*.tsx",
-    "../layers/*/modules/*/*.jsx",
-    "../layers/*/modules/*/*.vue",
+    "../layers/*/modules/**/*",
     "../node_modules/runtime/server",
     "../node_modules/dist/runtime/server",
-    "../node_modules/*.mjs",
-    "../node_modules/*.js",
-    "../node_modules/*.cjs",
-    "../node_modules/*.mts",
-    "../node_modules/*.ts",
-    "../node_modules/*.cts",
-    "../node_modules/*.tsx",
-    "../node_modules/*.jsx",
-    "../node_modules/*.vue",
-    "../node_modules/dist/*.mjs",
-    "../node_modules/dist/*.js",
-    "../node_modules/dist/*.cjs",
-    "../node_modules/dist/*.mts",
-    "../node_modules/dist/*.ts",
-    "../node_modules/dist/*.cts",
-    "../node_modules/dist/*.tsx",
-    "../node_modules/dist/*.jsx",
-    "../node_modules/dist/*.vue",
+    "../node_modules/*.*",
+    "../node_modules/dist/*.*",
     "../../node_modules/runtime/server",
     "../../node_modules/dist/runtime/server",
-    "../../node_modules/*.mjs",
-    "../../node_modules/*.js",
-    "../../node_modules/*.cjs",
-    "../../node_modules/*.mts",
-    "../../node_modules/*.ts",
-    "../../node_modules/*.cts",
-    "../../node_modules/*.tsx",
-    "../../node_modules/*.jsx",
-    "../../node_modules/*.vue",
-    "../../node_modules/dist/*.mjs",
-    "../../node_modules/dist/*.js",
-    "../../node_modules/dist/*.cjs",
-    "../../node_modules/dist/*.mts",
-    "../../node_modules/dist/*.ts",
-    "../../node_modules/dist/*.cts",
-    "../../node_modules/dist/*.tsx",
-    "../../node_modules/dist/*.jsx",
-    "../../node_modules/dist/*.vue",
+    "../../node_modules/*.*",
+    "../../node_modules/dist/*.*",
     "dev",
     "../server"
-  ],
-  "vueCompilerOptions": {
-    "plugins": [
-      "vue-router/volar/sfc-route-blocks"
-    ]
-  }
+  ]
 }

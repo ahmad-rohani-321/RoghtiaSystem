@@ -5,7 +5,7 @@ const open = defineModel<boolean>('open', { default: false })
 const emit = defineEmits<{ saved: [medications: Medication[]] }>()
 const api = useMedications()
 const auth = useAuth()
-const toast = useToast()
+const toast = useAppToast()
 const nuxtApp = useNuxtApp()
 const pending = ref(false)
 const message = ref('')
@@ -108,7 +108,7 @@ watch(open, value => {
 </script>
 
 <template>
-  <UModal
+  <PvModal
     :open="open"
     title="Bulk add medications"
     description="Add several medications for your account in one save. Blank rows are ignored."
@@ -120,30 +120,30 @@ watch(open, value => {
   >
     <template #body>
       <div class="bulk-medication-form">
-        <div class="bulk-medication-owner"><UIcon name="i-lucide-user-round" aria-hidden="true" /><span>All medications will belong to <bdi>{{ auth.user.value?.userName }}</bdi>.</span><span>{{ localNumber(filledRows.length) }} ready</span></div>
+        <div class="bulk-medication-owner"><PvIcon name="i-lucide-user-round" aria-hidden="true" /><span>All medications will belong to <bdi>{{ auth.user.value?.userName }}</bdi>.</span><span>{{ localNumber(filledRows.length) }} ready</span></div>
         <div class="bulk-medication-fields" aria-hidden="true"><span>#</span><span>Medication name</span><span>Medication type</span><span>Quantity</span><span>Remarks</span><span /></div>
         <div class="bulk-medication-rows">
           <div v-for="(row, index) in rows" :key="row.id" class="bulk-medication-row">
             <span class="bulk-medication-number">{{ localNumber(index + 1) }}</span>
-            <UInput v-model="row.name" :aria-label="`Row ${index + 1} medication name`" :maxlength="200" placeholder="Medication name" autocomplete="off" size="lg" />
-            <USelectMenu v-model="row.type" :items="medicationTypes" :aria-label="`Row ${index + 1} medication type`" searchable searchable-placeholder="Search types" placeholder="Select type" size="lg" />
-            <UInput v-model="row.quantity" :aria-label="`Row ${index + 1} quantity`" type="number" inputmode="numeric" min="0" max="2147483647" step="1" placeholder="0" size="lg" />
-            <UInput v-model="row.remarks" :aria-label="`Row ${index + 1} remarks`" :maxlength="1000" placeholder="Optional" size="lg" />
-            <UButton type="button" color="error" variant="ghost" icon="i-lucide-trash-2" :aria-label="`Remove unsaved row ${index + 1}`" :disabled="pending" @click="removeRow(row.id)" />
+            <PvInput v-model="row.name" :aria-label="`Row ${index + 1} medication name`" :maxlength="200" placeholder="Medication name" autocomplete="off" size="lg" />
+            <PvSelectMenu v-model="row.type" :items="medicationTypes" :aria-label="`Row ${index + 1} medication type`" searchable searchable-placeholder="Search types" placeholder="Select type" size="lg" />
+            <PvInput v-model="row.quantity" :aria-label="`Row ${index + 1} quantity`" type="number" inputmode="numeric" min="0" max="2147483647" step="1" placeholder="0" size="lg" />
+            <PvInput v-model="row.remarks" :aria-label="`Row ${index + 1} remarks`" :maxlength="1000" placeholder="Optional" size="lg" />
+            <PvButton type="button" color="error" variant="ghost" icon="i-lucide-trash-2" :aria-label="`Remove unsaved row ${index + 1}`" :disabled="pending" @click="removeRow(row.id)" />
           </div>
         </div>
         <div class="bulk-medication-actions">
-          <UButton type="button" color="neutral" variant="outline" icon="i-lucide-list-plus" :disabled="pending || rows.length >= 50" @click="addRow">Add row</UButton>
+          <PvButton type="button" color="neutral" variant="outline" icon="i-lucide-list-plus" :disabled="pending || rows.length >= 50" @click="addRow">Add row</PvButton>
           <span class="bulk-medication-limit">Up to 50 medications per batch</span>
         </div>
         <p v-if="message" class="bulk-medication-message" role="alert">{{ message }}</p>
         <div class="bulk-medication-footer">
-          <UButton type="button" color="neutral" variant="outline" :disabled="pending" @click="reset">Reset rows</UButton>
-          <div><UButton type="button" color="neutral" variant="outline" :disabled="pending" @click="open = false">Cancel</UButton><UButton type="button" icon="i-lucide-save" :loading="pending" :disabled="pending" @click="save">Save medications</UButton></div>
+          <PvButton type="button" color="neutral" variant="outline" :disabled="pending" @click="reset">Reset rows</PvButton>
+          <div><PvButton type="button" color="neutral" variant="outline" :disabled="pending" @click="open = false">Cancel</PvButton><PvButton type="button" icon="i-lucide-save" :loading="pending" :disabled="pending" @click="save">Save medications</PvButton></div>
         </div>
       </div>
     </template>
-  </UModal>
+  </PvModal>
 </template>
 
 <style scoped>

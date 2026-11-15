@@ -37,9 +37,9 @@ watch(() => route.path, () => { if (compact.value) open.value = false })
       :aria-expanded="open"
       @click="open = !open"
     >
-      <span class="nav-toggle-leading"><UIcon :name="open ? 'i-lucide-x' : 'i-lucide-menu'" aria-hidden="true" /><span>Menu</span></span>
-      <span class="menu-current"><UIcon :name="activeItem?.icon || 'i-lucide-layout-dashboard'" aria-hidden="true" />{{ activeItem?.compactLabel || 'Home' }}</span>
-      <UIcon class="nav-toggle-chevron" :name="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'" aria-hidden="true" />
+      <span class="nav-toggle-leading"><PvIcon :name="open ? 'i-lucide-x' : 'i-lucide-menu'" aria-hidden="true" /><span>Menu</span></span>
+      <span class="menu-current"><PvIcon :name="activeItem?.icon || 'i-lucide-layout-dashboard'" aria-hidden="true" />{{ activeItem?.compactLabel || 'Home' }}</span>
+      <PvIcon class="nav-toggle-chevron" :name="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'" aria-hidden="true" />
     </button>
     <nav v-show="!compact || open" id="main-navigation" class="bottom-nav" aria-label="Main navigation">
       <NuxtLink
@@ -52,7 +52,7 @@ watch(() => route.path, () => { if (compact.value) open.value = false })
         :aria-label="item.label"
         @click="open = false"
       >
-        <UIcon :name="item.icon" aria-hidden="true" />
+        <PvIcon :name="item.icon" aria-hidden="true" />
         <span class="full-label">{{ item.label }}</span>
         <span class="compact-label" aria-hidden="true">{{ item.compactLabel }}</span>
       </NuxtLink>

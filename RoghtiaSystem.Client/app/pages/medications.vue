@@ -5,7 +5,7 @@ useHead({ title: 'Medications — RoghtiaSystem' })
 
 const api = useMedications()
 const auth = useAuth()
-const toast = useToast()
+const toast = useAppToast()
 const nuxtApp = useNuxtApp()
 const search = ref('')
 const appliedSearch = ref('')
@@ -170,34 +170,34 @@ await load()
         <p>Register medications, view their details and keep them up to date.</p>
       </div>
       <div class="medication-create-actions">
-        <UButton type="button" color="neutral" variant="outline" icon="i-lucide-list-plus" size="lg" class="bulk-medication-button" @click="bulkFormOpen = true">Bulk add</UButton>
-        <UButton type="button" icon="i-lucide-plus" size="lg" class="add-medication-button" @click="addMedication">New medication</UButton>
+        <PvButton type="button" color="neutral" variant="outline" icon="i-lucide-list-plus" size="lg" class="bulk-medication-button" @click="bulkFormOpen = true">Bulk add</PvButton>
+        <PvButton type="button" icon="i-lucide-plus" size="lg" class="add-medication-button" @click="addMedication">New medication</PvButton>
       </div>
     </header>
 
     <section class="panel medications-panel" aria-labelledby="medications-list-title" :aria-busy="loading">
       <header class="medications-toolbar">
         <div class="medications-list-heading">
-          <span class="medications-icon" aria-hidden="true"><UIcon name="i-lucide-pill" /></span>
+          <span class="medications-icon" aria-hidden="true"><PvIcon name="i-lucide-pill" /></span>
           <div>
             <h2 id="medications-list-title">{{ appliedSearch ? 'Search results' : 'Registered medications' }}</h2>
             <p aria-live="polite">{{ loaded ? `${localNumber(result.total)} Medications` : 'Your medications' }}</p>
           </div>
         </div>
         <form class="medications-search" role="search" @submit.prevent="applySearch">
-          <UInput v-model="search" name="medicationSearch" icon="i-lucide-search" placeholder="Search by name or type" aria-label="Search medications" :maxlength="200" size="xl" class="w-full" :ui="{ base: 'medications-search-input' }" />
-          <UButton type="submit" size="lg" color="neutral" variant="outline" :loading="loading" aria-label="Search medications">Search</UButton>
+          <PvInput v-model="search" name="medicationSearch" icon="i-lucide-search" placeholder="Search by name or type" aria-label="Search medications" :maxlength="200" size="xl" class="w-full" :ui="{ base: 'medications-search-input' }" />
+          <PvButton type="submit" size="lg" color="neutral" variant="outline" :loading="loading" aria-label="Search medications">Search</PvButton>
         </form>
       </header>
 
       <div v-if="serviceMessage" class="medications-error" role="alert">
-        <UIcon name="i-lucide-circle-alert" aria-hidden="true" />
+        <PvIcon name="i-lucide-circle-alert" aria-hidden="true" />
         <p>{{ serviceMessage }}</p>
-        <UButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-refresh-cw" :loading="loading" :disabled="loading" @click="load">Try again</UButton>
+        <PvButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-refresh-cw" :loading="loading" :disabled="loading" @click="load">Try again</PvButton>
       </div>
 
       <div v-if="loading" class="medications-state" role="status">
-        <UIcon name="i-lucide-loader-circle" class="animate-spin" aria-hidden="true" />
+        <PvIcon name="i-lucide-loader-circle" class="animate-spin" aria-hidden="true" />
         <p>Loading medications…</p>
       </div>
       <template v-else-if="loaded && result.items.length">
@@ -212,7 +212,7 @@ await load()
                 <td><span class="medication-type"><bdi>{{ medication.type }}</bdi></span></td>
                 <td><span class="medication-quantity">{{ localNumber(medication.quantity) }}</span></td>
                 <td><p class="medication-remarks" dir="auto">{{ medication.remarks || '—' }}</p></td>
-                <td><UButton type="button" color="neutral" variant="ghost" icon="i-lucide-pencil-line" size="lg" :loading="editingId === medication.id" :disabled="editingId !== null" :aria-label="`${medication.name}: Edit`" @click="editMedication(medication)">Edit</UButton></td>
+                <td><PvButton type="button" color="neutral" variant="ghost" icon="i-lucide-pencil-line" size="lg" :loading="editingId === medication.id" :disabled="editingId !== null" :aria-label="`${medication.name}: Edit`" @click="editMedication(medication)">Edit</PvButton></td>
               </tr>
             </tbody>
           </table>
@@ -222,7 +222,7 @@ await load()
           <article v-for="medication in result.items" :key="medication.id" class="medication-card">
             <header>
               <div><p class="medication-id">No. {{ localNumber(medication.id) }}</p><h3><bdi>{{ medication.name }}</bdi></h3></div>
-              <UButton type="button" color="neutral" variant="outline" icon="i-lucide-pencil-line" size="lg" :loading="editingId === medication.id" :disabled="editingId !== null" :aria-label="`${medication.name}: Edit`" @click="editMedication(medication)">Edit</UButton>
+              <PvButton type="button" color="neutral" variant="outline" icon="i-lucide-pencil-line" size="lg" :loading="editingId === medication.id" :disabled="editingId !== null" :aria-label="`${medication.name}: Edit`" @click="editMedication(medication)">Edit</PvButton>
             </header>
             <dl>
               <div><dt>Type</dt><dd><bdi>{{ medication.type }}</bdi></dd></div>
@@ -235,18 +235,18 @@ await load()
         <footer class="medications-pagination">
           <p>{{ localNumber(rangeStart) }}–{{ localNumber(rangeEnd) }} of {{ localNumber(result.total) }} medications</p>
           <nav aria-label="Medication pagination">
-            <UButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-chevron-left" :disabled="loading || page <= 1" aria-label="Previous page" @click="changePage(page - 1)" />
+            <PvButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-chevron-left" :disabled="loading || page <= 1" aria-label="Previous page" @click="changePage(page - 1)" />
             <span aria-live="polite">{{ localNumber(page) }} / {{ localNumber(totalPages) }}</span>
-            <UButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-chevron-right" :disabled="loading || page >= totalPages" aria-label="Next page" @click="changePage(page + 1)" />
+            <PvButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-chevron-right" :disabled="loading || page >= totalPages" aria-label="Next page" @click="changePage(page + 1)" />
           </nav>
         </footer>
       </template>
       <div v-else-if="loaded && !serviceMessage" class="medications-state medications-empty">
-        <span class="medications-empty-icon"><UIcon :name="appliedSearch ? 'i-lucide-search' : 'i-lucide-pill'" aria-hidden="true" /></span>
+        <span class="medications-empty-icon"><PvIcon :name="appliedSearch ? 'i-lucide-search' : 'i-lucide-pill'" aria-hidden="true" /></span>
         <h3>{{ appliedSearch ? 'No medications found' : 'No medications registered yet' }}</h3>
         <p>{{ appliedSearch ? 'Try another name or type.' : 'Register your first medication with its name, type and quantity.' }}</p>
-        <UButton v-if="appliedSearch" type="button" size="lg" color="neutral" variant="outline" @click="search = ''; applySearch()">Show all medications</UButton>
-        <UButton v-else type="button" size="lg" icon="i-lucide-plus" @click="addMedication">New medication</UButton>
+        <PvButton v-if="appliedSearch" type="button" size="lg" color="neutral" variant="outline" @click="search = ''; applySearch()">Show all medications</PvButton>
+        <PvButton v-else type="button" size="lg" icon="i-lucide-plus" @click="addMedication">New medication</PvButton>
       </div>
     </section>
 

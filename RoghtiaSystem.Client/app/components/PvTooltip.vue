@@ -1,0 +1,1 @@
+<script setup lang="ts">defineProps<{text?:string}>()</script><template><span v-tooltip="text" class="pv-tooltip"><slot /></span></template>

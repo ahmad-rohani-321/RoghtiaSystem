@@ -1,0 +1,1 @@
+export { default } from "file:///D:/Projects/RoghtiaSystem/RoghtiaSystem.Client/node_modules/@nuxt/vite-builder/dist/runtime/vite-node.mjs"

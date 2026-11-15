@@ -1,0 +1,2 @@
+<script setup lang="ts">import Checkbox from 'primevue/checkbox'; const model=defineModel<boolean>(); defineProps<{ label?: string; name?: string; disabled?: boolean }>()</script>
+<template><label class="pv-check"><Checkbox v-model="model" :name="name" :disabled="disabled" binary /><span v-if="label">{{ label }}</span></label></template>

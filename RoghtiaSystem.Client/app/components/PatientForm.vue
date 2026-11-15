@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormError, FormErrorEvent } from '@nuxt/ui'
+import type { FormError, FormErrorEvent } from '~/types/ui'
 import type { Patient, PatientInput } from '#shared/types/patient'
 
 const open = defineModel<boolean>('open', { default: false })
@@ -7,7 +7,7 @@ const props = defineProps<{ patient: Patient | null }>()
 const emit = defineEmits<{ saved: [patient: Patient, created: boolean] }>()
 const api = usePatients()
 const auth = useAuth()
-const toast = useToast()
+const toast = useAppToast()
 const nuxtApp = useNuxtApp()
 const form = useTemplateRef('patientForm')
 const pending = ref(false)
@@ -95,7 +95,7 @@ watch(open, (value) => {
 </script>
 
 <template>
-  <UModal
+  <PvModal
     :open="open"
     :title="editing ? 'Edit patient' : 'New patient'"
     description="Enter the patient information."
@@ -106,36 +106,36 @@ watch(open, (value) => {
     @update:open="value => { if (!pending) open = value }"
   >
     <template #body>
-      <UForm ref="patientForm" :state="state" :validate="validate" :disabled="pending" :loading-auto="false" novalidate class="patient-form" @submit="save" @error="focusError">
+      <PvForm ref="patientForm" :state="state" :validate="validate" :disabled="pending" :loading-auto="false" novalidate class="patient-form" @submit="save" @error="focusError">
         <p class="patient-owner">
           <template v-if="patient">Code: <bdi>{{ patient.code }}</bdi> · ID: {{ localNumber(patient.id) }}</template>
           <template v-else>The patient code is generated automatically.</template>
         </p>
-        <UFormField name="name" label="Patient name" size="lg" required :ui="{ label: 'text-base' }">
-          <UInput v-model="state.name" name="name" dir="auto" :maxlength="200" autocomplete="off" size="xl" class="w-full" :ui="{ base: 'patient-input' }" />
-        </UFormField>
+        <PvFormField name="name" label="Patient name" size="lg" required :ui="{ label: 'text-base' }">
+          <PvInput v-model="state.name" name="name" dir="auto" :maxlength="200" autocomplete="off" size="xl" class="w-full" :ui="{ base: 'patient-input' }" />
+        </PvFormField>
         <div class="patient-form-grid">
-          <UFormField name="phone" label="Phone" hint="Optional" size="lg" :ui="{ label: 'text-base' }">
-            <UInput v-model="state.phone" name="phone" type="tel" dir="ltr" :maxlength="32" size="xl" class="w-full" :ui="{ base: 'patient-input' }" />
-          </UFormField>
-          <UFormField name="age" label="Age (years)" size="lg" required :ui="{ label: 'text-base' }">
-            <UInput v-model="state.age" name="age" type="number" inputmode="numeric" :min="0" :max="150" :step="1" size="xl" class="w-full" :ui="{ base: 'patient-input' }" />
-          </UFormField>
-          <UFormField name="gender" label="Gender" size="lg" required :ui="{ label: 'text-base' }">
-            <USelect v-model="state.gender" name="gender" :items="genders" placeholder="Select gender" size="xl" class="w-full" :ui="{ base: 'patient-input' }" />
-          </UFormField>
+          <PvFormField name="phone" label="Phone" hint="Optional" size="lg" :ui="{ label: 'text-base' }">
+            <PvInput v-model="state.phone" name="phone" type="tel" dir="ltr" :maxlength="32" size="xl" class="w-full" :ui="{ base: 'patient-input' }" />
+          </PvFormField>
+          <PvFormField name="age" label="Age (years)" size="lg" required :ui="{ label: 'text-base' }">
+            <PvInput v-model="state.age" name="age" type="number" inputmode="numeric" :min="0" :max="150" :step="1" size="xl" class="w-full" :ui="{ base: 'patient-input' }" />
+          </PvFormField>
+          <PvFormField name="gender" label="Gender" size="lg" required :ui="{ label: 'text-base' }">
+            <PvSelect v-model="state.gender" name="gender" :items="genders" placeholder="Select gender" size="xl" class="w-full" :ui="{ base: 'patient-input' }" />
+          </PvFormField>
         </div>
-        <UFormField name="address" label="Address" hint="Optional" size="lg" :ui="{ label: 'text-base' }">
-          <UTextarea v-model="state.address" name="address" dir="auto" :maxlength="1000" :rows="3" size="xl" class="w-full" :ui="{ base: 'patient-input patient-address-input' }" />
-        </UFormField>
+        <PvFormField name="address" label="Address" hint="Optional" size="lg" :ui="{ label: 'text-base' }">
+          <PvTextarea v-model="state.address" name="address" dir="auto" :maxlength="1000" :rows="3" size="xl" class="w-full" :ui="{ base: 'patient-input patient-address-input' }" />
+        </PvFormField>
         <p v-if="serviceMessage" class="patient-message" role="alert">{{ serviceMessage }}</p>
         <div class="patient-form-actions">
-          <UButton type="submit" size="lg" icon="i-lucide-save" :loading="pending" :disabled="pending">{{ editing ? 'Save changes' : 'Register patient' }}</UButton>
-          <UButton type="button" size="lg" color="neutral" variant="outline" :disabled="pending" @click="open = false">Cancel</UButton>
+          <PvButton type="submit" size="lg" icon="i-lucide-save" :loading="pending" :disabled="pending">{{ editing ? 'Save changes' : 'Register patient' }}</PvButton>
+          <PvButton type="button" size="lg" color="neutral" variant="outline" :disabled="pending" @click="open = false">Cancel</PvButton>
         </div>
-      </UForm>
+      </PvForm>
     </template>
-  </UModal>
+  </PvModal>
 </template>
 
 <style scoped>

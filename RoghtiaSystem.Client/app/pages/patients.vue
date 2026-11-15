@@ -5,7 +5,7 @@ useHead({ title: 'Patients — RoghtiaSystem' })
 
 const api = usePatients()
 const auth = useAuth()
-const toast = useToast()
+const toast = useAppToast()
 const nuxtApp = useNuxtApp()
 const search = ref('')
 const appliedSearch = ref('')
@@ -156,32 +156,32 @@ await load()
         <h1 id="patients-title">Patients</h1>
         <p>Register patients, view their details and keep them up to date.</p>
       </div>
-      <UButton type="button" icon="i-lucide-plus" size="lg" class="add-patient-button" @click="addPatient">New patient</UButton>
+      <PvButton type="button" icon="i-lucide-plus" size="lg" class="add-patient-button" @click="addPatient">New patient</PvButton>
     </header>
 
     <section class="panel patients-panel" aria-labelledby="patients-list-title" :aria-busy="loading">
       <header class="patients-toolbar">
         <div class="patients-list-heading">
-          <span class="patients-icon" aria-hidden="true"><UIcon name="i-lucide-users-round" /></span>
+          <span class="patients-icon" aria-hidden="true"><PvIcon name="i-lucide-users-round" /></span>
           <div>
             <h2 id="patients-list-title">{{ appliedSearch ? 'Search results' : 'Registered patients' }}</h2>
             <p aria-live="polite">{{ loaded ? `${localNumber(result.total)} Patients` : 'Your patients' }}</p>
           </div>
         </div>
         <form class="patients-search" role="search" @submit.prevent="applySearch">
-          <UInput v-model="search" name="patientSearch" icon="i-lucide-search" placeholder="Search by name, code or phone" aria-label="Search patients" :maxlength="200" size="xl" class="w-full" :ui="{ base: 'patients-search-input' }" />
-          <UButton type="submit" size="lg" color="neutral" variant="outline" :loading="loading" aria-label="Search patients">Search</UButton>
+          <PvInput v-model="search" name="patientSearch" icon="i-lucide-search" placeholder="Search by name, code or phone" aria-label="Search patients" :maxlength="200" size="xl" class="w-full" :ui="{ base: 'patients-search-input' }" />
+          <PvButton type="submit" size="lg" color="neutral" variant="outline" :loading="loading" aria-label="Search patients">Search</PvButton>
         </form>
       </header>
 
       <div v-if="serviceMessage" class="patients-error" role="alert">
-        <UIcon name="i-lucide-circle-alert" aria-hidden="true" />
+        <PvIcon name="i-lucide-circle-alert" aria-hidden="true" />
         <p>{{ serviceMessage }}</p>
-        <UButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-refresh-cw" :loading="loading" :disabled="loading" @click="load">Try again</UButton>
+        <PvButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-refresh-cw" :loading="loading" :disabled="loading" @click="load">Try again</PvButton>
       </div>
 
       <div v-if="loading" class="patients-state" role="status">
-        <UIcon name="i-lucide-loader-circle" class="animate-spin" aria-hidden="true" />
+        <PvIcon name="i-lucide-loader-circle" class="animate-spin" aria-hidden="true" />
         <p>Loading patients…</p>
       </div>
       <template v-else-if="loaded && result.items.length">
@@ -198,7 +198,7 @@ await load()
                 <td><span class="patient-quantity">{{ localNumber(patient.age) }}</span></td>
                 <td>{{ genders[patient.gender] }}</td>
                 <td><p class="patient-remarks" dir="auto">{{ patient.address || '—' }}</p></td>
-                <td><div class="patient-actions"><UButton :to="`/patient-history/${patient.id}`" color="neutral" variant="outline" icon="i-lucide-notebook-tabs" size="lg">History</UButton><UButton type="button" color="neutral" variant="ghost" icon="i-lucide-pencil-line" size="lg" :loading="editingId === patient.id" :disabled="editingId !== null" :aria-label="`${patient.name}: Edit`" @click="editPatient(patient)">Edit</UButton></div></td>
+                <td><div class="patient-actions"><PvButton :to="`/patient-history/${patient.id}`" color="neutral" variant="outline" icon="i-lucide-notebook-tabs" size="lg">History</PvButton><PvButton type="button" color="neutral" variant="ghost" icon="i-lucide-pencil-line" size="lg" :loading="editingId === patient.id" :disabled="editingId !== null" :aria-label="`${patient.name}: Edit`" @click="editPatient(patient)">Edit</PvButton></div></td>
               </tr>
             </tbody>
           </table>
@@ -208,7 +208,7 @@ await load()
           <article v-for="patient in result.items" :key="patient.id" class="patient-card">
             <header>
               <div><p class="patient-id">No. {{ localNumber(patient.id) }}</p><h3><bdi>{{ patient.name }}</bdi></h3></div>
-              <div class="patient-card-actions"><UButton :to="`/patient-history/${patient.id}`" color="neutral" variant="outline" icon="i-lucide-notebook-tabs" size="lg">History</UButton><UButton type="button" color="neutral" variant="outline" icon="i-lucide-pencil-line" size="lg" :loading="editingId === patient.id" :disabled="editingId !== null" :aria-label="`${patient.name}: Edit`" @click="editPatient(patient)">Edit</UButton></div>
+              <div class="patient-card-actions"><PvButton :to="`/patient-history/${patient.id}`" color="neutral" variant="outline" icon="i-lucide-notebook-tabs" size="lg">History</PvButton><PvButton type="button" color="neutral" variant="outline" icon="i-lucide-pencil-line" size="lg" :loading="editingId === patient.id" :disabled="editingId !== null" :aria-label="`${patient.name}: Edit`" @click="editPatient(patient)">Edit</PvButton></div>
             </header>
             <dl>
               <div><dt>Code</dt><dd><bdi>{{ patient.code }}</bdi></dd></div>
@@ -223,18 +223,18 @@ await load()
         <footer class="patients-pagination">
           <p>{{ localNumber(rangeStart) }}–{{ localNumber(rangeEnd) }} of {{ localNumber(result.total) }} patients</p>
           <nav aria-label="Patient pagination">
-            <UButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-chevron-left" :disabled="loading || page <= 1" aria-label="Previous page" @click="changePage(page - 1)" />
+            <PvButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-chevron-left" :disabled="loading || page <= 1" aria-label="Previous page" @click="changePage(page - 1)" />
             <span aria-live="polite">{{ localNumber(page) }} / {{ localNumber(totalPages) }}</span>
-            <UButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-chevron-right" :disabled="loading || page >= totalPages" aria-label="Next page" @click="changePage(page + 1)" />
+            <PvButton type="button" size="lg" color="neutral" variant="outline" icon="i-lucide-chevron-right" :disabled="loading || page >= totalPages" aria-label="Next page" @click="changePage(page + 1)" />
           </nav>
         </footer>
       </template>
       <div v-else-if="loaded && !serviceMessage" class="patients-state patients-empty">
-        <span class="patients-empty-icon"><UIcon :name="appliedSearch ? 'i-lucide-search' : 'i-lucide-users-round'" aria-hidden="true" /></span>
+        <span class="patients-empty-icon"><PvIcon :name="appliedSearch ? 'i-lucide-search' : 'i-lucide-users-round'" aria-hidden="true" /></span>
         <h3>{{ appliedSearch ? 'No patients found' : 'No patients registered yet' }}</h3>
         <p>{{ appliedSearch ? 'Try another name, code or phone number.' : 'Register your first patient.' }}</p>
-        <UButton v-if="appliedSearch" type="button" size="lg" color="neutral" variant="outline" @click="search = ''; applySearch()">Show all patients</UButton>
-        <UButton v-else type="button" size="lg" icon="i-lucide-plus" @click="addPatient">New patient</UButton>
+        <PvButton v-if="appliedSearch" type="button" size="lg" color="neutral" variant="outline" @click="search = ''; applySearch()">Show all patients</PvButton>
+        <PvButton v-else type="button" size="lg" icon="i-lucide-plus" @click="addPatient">New patient</PvButton>
       </div>
     </section>
 

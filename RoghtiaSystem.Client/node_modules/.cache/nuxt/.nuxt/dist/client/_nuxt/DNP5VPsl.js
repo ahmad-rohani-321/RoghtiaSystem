@@ -1,1 +1,0 @@
-import{Y as e}from"./B-_u_r1O.js";import{r as t}from"./CFNKwytt.js";function n(n,r=`reka`){if(n)return n;let i,a=t({useId:void 0});return i=a.useId?a.useId():e?.(),r?`${r}-${i}`:i}export{n as t};

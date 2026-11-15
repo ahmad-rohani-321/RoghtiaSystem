@@ -1,0 +1,2 @@
+<script setup lang="ts">import Message from 'primevue/message'; defineProps<{title?:string;description?:string;color?:string;icon?:string}>()</script>
+<template><Message :severity="color === 'warning' ? 'warn' : color === 'error' ? 'error' : 'info'" :closable="false"><PvIcon v-if="icon" :name="icon" /><strong v-if="title">{{ title }}</strong><span v-if="description">{{ description }}</span></Message></template>

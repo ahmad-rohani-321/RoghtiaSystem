@@ -6,7 +6,7 @@ const open = defineModel<boolean>('open', { default: false })
 const props = defineProps<{ patient: Patient }>()
 const api = useTreatments()
 const auth = useAuth()
-const toast = useToast()
+const toast = useAppToast()
 const pageSize = 8
 const result = ref<TreatmentPage>({ items: [], total: 0, page: 1, pageSize })
 const loading = ref(false)
@@ -66,24 +66,24 @@ watch(() => props.patient.id, () => { if (open.value) void load(1) })
 </script>
 
 <template>
-  <UModal v-model:open="open" :title="`${patient.name} · treatment history`" description="Previous visits and saved treatment details." dir="ltr" :ui="{ content: 'w-[min(960px,calc(100vw-1.5rem))] max-w-none min-w-0', body: 'min-w-0' }">
+  <PvModal v-model:open="open" :title="`${patient.name} · treatment history`" description="Previous visits and saved treatment details." dir="ltr" :ui="{ content: 'w-[min(960px,calc(100vw-1.5rem))] max-w-none min-w-0', body: 'min-w-0' }">
     <template #body>
       <div class="history-modal">
-        <div class="history-patient"><span class="history-avatar"><UIcon name="i-lucide-user-round" /></span><div><strong><bdi>{{ patient.name }}</bdi></strong><span>{{ patient.code }} <template v-if="patient.phone">· <bdi dir="ltr">{{ patient.phone }}</bdi></template></span></div><span class="history-total">{{ localNumber(result.total) }} visits</span></div>
+        <div class="history-patient"><span class="history-avatar"><PvIcon name="i-lucide-user-round" /></span><div><strong><bdi>{{ patient.name }}</bdi></strong><span>{{ patient.code }} <template v-if="patient.phone">· <bdi dir="ltr">{{ patient.phone }}</bdi></template></span></div><span class="history-total">{{ localNumber(result.total) }} visits</span></div>
 
-        <div v-if="errorMessage" class="history-state history-error" role="alert"><UIcon name="i-lucide-circle-alert" /><span>{{ errorMessage }}</span><UButton type="button" color="neutral" variant="outline" :loading="loading" @click="load(result.page)">Try again</UButton></div>
-        <div v-else-if="loading" class="history-state" role="status"><UIcon name="i-lucide-loader-circle" class="animate-spin" /><span>Loading treatment history…</span></div>
+        <div v-if="errorMessage" class="history-state history-error" role="alert"><PvIcon name="i-lucide-circle-alert" /><span>{{ errorMessage }}</span><PvButton type="button" color="neutral" variant="outline" :loading="loading" @click="load(result.page)">Try again</PvButton></div>
+        <div v-else-if="loading" class="history-state" role="status"><PvIcon name="i-lucide-loader-circle" class="animate-spin" /><span>Loading treatment history…</span></div>
         <div v-else-if="result.items.length" class="history-list">
           <article v-for="item in result.items" :key="item.id" class="history-visit">
             <div class="visit-main"><div class="visit-heading"><strong>{{ formatDateTime(item.recordedAtUtc) }}</strong><span>Treatment #{{ localNumber(item.id) }}</span></div><div class="visit-summary"><span>BP: <bdi dir="ltr">{{ item.bloodPressure || '—' }}</bdi></span><span>{{ localNumber(item.medicationCount) }} medications</span><span>{{ localNumber(item.clinicalNoteCount) }} clinical notes</span></div></div>
-            <UButton type="button" color="neutral" variant="outline" icon="i-lucide-eye" :loading="detailLoadingId === item.id" :disabled="detailLoadingId !== null" @click="showDetails(item)">Details</UButton>
+            <PvButton type="button" color="neutral" variant="outline" icon="i-lucide-eye" :loading="detailLoadingId === item.id" :disabled="detailLoadingId !== null" @click="showDetails(item)">Details</PvButton>
           </article>
-          <nav v-if="totalPages > 1" class="history-pagination" aria-label="Treatment history pages"><span>Page {{ localNumber(result.page) }} of {{ localNumber(totalPages) }}</span><div><UButton type="button" color="neutral" variant="outline" icon="i-lucide-chevron-left" aria-label="Previous page" :disabled="result.page <= 1 || loading" @click="load(result.page - 1)" /><UButton type="button" color="neutral" variant="outline" icon="i-lucide-chevron-right" aria-label="Next page" :disabled="result.page >= totalPages || loading" @click="load(result.page + 1)" /></div></nav>
+          <nav v-if="totalPages > 1" class="history-pagination" aria-label="Treatment history pages"><span>Page {{ localNumber(result.page) }} of {{ localNumber(totalPages) }}</span><div><PvButton type="button" color="neutral" variant="outline" icon="i-lucide-chevron-left" aria-label="Previous page" :disabled="result.page <= 1 || loading" @click="load(result.page - 1)" /><PvButton type="button" color="neutral" variant="outline" icon="i-lucide-chevron-right" aria-label="Next page" :disabled="result.page >= totalPages || loading" @click="load(result.page + 1)" /></div></nav>
         </div>
-        <div v-else class="history-state history-empty"><UIcon name="i-lucide-clipboard-list" /><strong>No previous treatments</strong><span>This patient has no saved treatment history yet.</span></div>
+        <div v-else class="history-state history-empty"><PvIcon name="i-lucide-clipboard-list" /><strong>No previous treatments</strong><span>This patient has no saved treatment history yet.</span></div>
 
         <section v-if="selectedTreatment" class="history-details" aria-live="polite">
-          <header><div><span class="detail-eyebrow">Visit details</span><h3>Treatment #{{ localNumber(selectedTreatment.id) }}</h3></div><UButton type="button" color="neutral" variant="ghost" icon="i-lucide-x" aria-label="Close treatment details" @click="selectedTreatment = null" /></header>
+          <header><div><span class="detail-eyebrow">Visit details</span><h3>Treatment #{{ localNumber(selectedTreatment.id) }}</h3></div><PvButton type="button" color="neutral" variant="ghost" icon="i-lucide-x" aria-label="Close treatment details" @click="selectedTreatment = null" /></header>
           <dl class="detail-facts"><div><dt>Date and time</dt><dd>{{ formatDateTime(selectedTreatment.recordedAtUtc) }}</dd></div><div><dt>Patient code</dt><dd>{{ selectedTreatment.patient.code }}</dd></div><div><dt>Age / gender</dt><dd>{{ localNumber(selectedTreatment.patient.age) }} years · {{ genders[selectedTreatment.patient.gender] || selectedTreatment.patient.gender }}</dd></div><div><dt>Phone</dt><dd dir="ltr">{{ selectedTreatment.patient.phone || '—' }}</dd></div><div><dt>Blood pressure</dt><dd dir="ltr">{{ selectedTreatment.bloodPressure || '—' }}</dd></div><div><dt>Address</dt><dd><bdi>{{ selectedTreatment.patient.address || '—' }}</bdi></dd></div></dl>
           <div class="detail-group"><h4>Medications and prescription</h4><div v-if="selectedTreatment.prescriptionItems.length" class="detail-table-wrap"><table><thead><tr><th>No.</th><th>Medication</th><th>Type</th><th>Dose</th><th>Frequency</th><th>Duration</th></tr></thead><tbody><tr v-for="medicine in selectedTreatment.prescriptionItems" :key="medicine.id"><td>{{ localNumber(medicine.position) }}</td><td><bdi>{{ medicine.medicationName }}</bdi></td><td>{{ medicine.medicationType }}</td><td>{{ localNumber(medicine.dose) }}</td><td>{{ medicine.frequency }}</td><td>{{ medicine.duration }}</td></tr></tbody></table></div><p v-else class="detail-muted">No medications were prescribed.</p></div>
           <div v-if="selectedTreatment.clinicalNotes.length" class="detail-group"><h4>Clinical notes</h4><p>{{ selectedTreatment.clinicalNotes.map(note => note.text).join(', ') }}</p></div>
@@ -93,7 +93,7 @@ watch(() => props.patient.id, () => { if (open.value) void load(1) })
         </section>
       </div>
     </template>
-  </UModal>
+  </PvModal>
 </template>
 
 <style scoped>

@@ -1,1 +1,0 @@
-import{t as e}from"./B68XIsJw.js";import{_t as t,ot as n}from"./nNtusqke.js";import{B as r,Tt as i,f as a,x as o}from"./B-_u_r1O.js";var s=o({__name:`edit`,setup(o){let s=n(),c=Number(s.params.id);if(!Number.isInteger(c)||c<1||c>2147483647)throw t({statusCode:404});return(t,n)=>{let o=e;return r(),a(o,{"treatment-id":i(c)},null,8,[`treatment-id`])}}});export{s as default};

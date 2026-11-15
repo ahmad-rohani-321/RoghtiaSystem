@@ -106,17 +106,17 @@ onMounted(loadHistory)
         <p v-else>Patient visits, prescriptions, and treatment notes.</p>
       </div>
       <div class="history-actions">
-        <UButton to="/patients" color="neutral" variant="outline" icon="i-lucide-arrow-left">Back to patients</UButton>
-        <UButton v-if="patient" type="button" icon="i-lucide-printer" :loading="printing" :disabled="loading || loadingDetails.length > 0" @click="printHistory">Print history</UButton>
+        <PvButton to="/patients" color="neutral" variant="outline" icon="i-lucide-arrow-left">Back to patients</PvButton>
+        <PvButton v-if="patient" type="button" icon="i-lucide-printer" :loading="printing" :disabled="loading || loadingDetails.length > 0" @click="printHistory">Print history</PvButton>
       </div>
     </header>
-    <div v-if="loading" class="history-state" role="status"><UIcon name="i-lucide-loader-circle" class="animate-spin" />Loading patient history…</div>
-    <div v-else-if="errorMessage" class="history-state history-error" role="alert"><UIcon name="i-lucide-circle-alert" /><p>{{ errorMessage }}</p><UButton type="button" color="neutral" variant="outline" icon="i-lucide-refresh-cw" @click="loadHistory">Try again</UButton></div>
+    <div v-if="loading" class="history-state" role="status"><PvIcon name="i-lucide-loader-circle" class="animate-spin" />Loading patient history…</div>
+    <div v-else-if="errorMessage" class="history-state history-error" role="alert"><PvIcon name="i-lucide-circle-alert" /><p>{{ errorMessage }}</p><PvButton type="button" color="neutral" variant="outline" icon="i-lucide-refresh-cw" @click="loadHistory">Try again</PvButton></div>
     <template v-else-if="patient">
-      <div v-if="printError" class="history-alert" role="alert"><UIcon name="i-lucide-circle-alert" /><span>{{ printError }}</span></div>
+      <div v-if="printError" class="history-alert" role="alert"><PvIcon name="i-lucide-circle-alert" /><span>{{ printError }}</span></div>
       <article class="history-sheet" aria-label="Patient medical history">
         <header class="patient-summary">
-          <div class="patient-avatar" aria-hidden="true"><UIcon name="i-lucide-user-round" /></div>
+          <div class="patient-avatar" aria-hidden="true"><PvIcon name="i-lucide-user-round" /></div>
           <div class="patient-heading"><p>Patient</p><h2><bdi>{{ patient.name }}</bdi></h2></div>
           <div class="patient-code"><span>Patient code</span><strong dir="ltr"><bdi>{{ patient.code }}</bdi></strong></div>
           <dl class="patient-demographics">
@@ -127,29 +127,29 @@ onMounted(loadHistory)
           </dl>
         </header>
         <section class="visit-section" aria-labelledby="visits-title">
-          <header class="section-heading"><div><span class="section-icon"><UIcon name="i-lucide-notebook-tabs" /></span><div><h2 id="visits-title">Visit history</h2><p>{{ localNumber(visits.length) }} {{ visits.length === 1 ? 'visit' : 'visits' }} on record</p></div></div></header>
+          <header class="section-heading"><div><span class="section-icon"><PvIcon name="i-lucide-notebook-tabs" /></span><div><h2 id="visits-title">Visit history</h2><p>{{ localNumber(visits.length) }} {{ visits.length === 1 ? 'visit' : 'visits' }} on record</p></div></div></header>
           <div v-if="visits.length" class="visit-list">
             <article v-for="(visit, index) in visits" :key="visit.id" class="visit-card">
               <button class="visit-toggle" type="button" :aria-expanded="expandedVisit === visit.id" :aria-controls="'visit-detail-' + visit.id" @click="toggleVisit(visit.id)">
                 <span class="visit-number">{{ localNumber(visits.length - index) }}</span>
                 <span class="visit-summary"><strong>{{ formatDateTime(visit.recordedAtUtc) }}</strong><small>{{ localNumber(visit.medicationCount) }} medications <span aria-hidden="true">·</span> BP {{ visit.bloodPressure || '—' }}</small></span>
-                <UIcon :name="expandedVisit === visit.id ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'" class="visit-chevron" aria-hidden="true" />
+                <PvIcon :name="expandedVisit === visit.id ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'" class="visit-chevron" aria-hidden="true" />
               </button>
               <div v-if="expandedVisit === visit.id || printing" :id="'visit-detail-' + visit.id" class="visit-detail">
-                <div v-if="loadingDetails.includes(visit.id)" class="detail-loading" role="status"><UIcon name="i-lucide-loader-circle" class="animate-spin" />Loading visit details…</div>
+                <div v-if="loadingDetails.includes(visit.id)" class="detail-loading" role="status"><PvIcon name="i-lucide-loader-circle" class="animate-spin" />Loading visit details…</div>
                 <template v-else-if="details[visit.id]">
                   <dl class="visit-vitals"><div><dt>Blood pressure</dt><dd>{{ details[visit.id]!.bloodPressure || '—' }}</dd></div><div><dt>Recorded</dt><dd>{{ formatDateTime(details[visit.id]!.recordedAtUtc) }}</dd></div></dl>
-                  <section v-if="details[visit.id]!.prescriptionItems.length" class="detail-group"><h3><UIcon name="i-lucide-capsule" /> Medications</h3><div class="medication-table-wrap"><table class="medication-table"><thead><tr><th>#</th><th>Medication</th><th>Type</th><th>Dose</th><th>Frequency</th><th>Duration</th></tr></thead><tbody><tr v-for="item in details[visit.id]!.prescriptionItems" :key="item.id"><td>{{ localNumber(item.position) }}</td><td><bdi>{{ item.medicationName }}</bdi></td><td>{{ item.medicationType }}</td><td>{{ localNumber(item.dose) }}</td><td>{{ item.frequency }}</td><td>{{ item.duration }}</td></tr></tbody></table></div></section>
-                  <section v-if="details[visit.id]!.clinicalNotes.length" class="detail-group"><h3><UIcon name="i-lucide-clipboard-list" /> Clinical notes</h3><p>{{ details[visit.id]!.clinicalNotes.map(item => item.text).join(', ') }}</p></section>
-                  <section v-if="details[visit.id]!.additionalInstructionItems.length || details[visit.id]!.additionalInstructions" class="detail-group"><h3><UIcon name="i-lucide-info" /> Additional instructions</h3><p>{{ [...details[visit.id]!.additionalInstructionItems.map(item => item.text), ...(details[visit.id]!.additionalInstructions ? [details[visit.id]!.additionalInstructions] : [])].join(', ') }}</p></section>
-                  <section v-if="details[visit.id]!.diagnostics.length" class="detail-group"><h3><UIcon name="i-lucide-microscope" /> Diagnostics</h3><p>{{ details[visit.id]!.diagnostics.map(item => item.text).join(', ') }}</p></section>
-                  <section v-if="details[visit.id]!.investigations.length" class="detail-group"><h3><UIcon name="i-lucide-microscope" /> Investigations</h3><p>{{ details[visit.id]!.investigations.map(item => item.text).join(', ') }}</p></section>
-                  <UButton :to="'/treatments/' + visit.id + '/print'" color="neutral" variant="outline" icon="i-lucide-file-text" class="visit-prescription-link">Open prescription</UButton>
+                  <section v-if="details[visit.id]!.prescriptionItems.length" class="detail-group"><h3><PvIcon name="i-lucide-capsule" /> Medications</h3><div class="medication-table-wrap"><table class="medication-table"><thead><tr><th>#</th><th>Medication</th><th>Type</th><th>Dose</th><th>Frequency</th><th>Duration</th></tr></thead><tbody><tr v-for="item in details[visit.id]!.prescriptionItems" :key="item.id"><td>{{ localNumber(item.position) }}</td><td><bdi>{{ item.medicationName }}</bdi></td><td>{{ item.medicationType }}</td><td>{{ localNumber(item.dose) }}</td><td>{{ item.frequency }}</td><td>{{ item.duration }}</td></tr></tbody></table></div></section>
+                  <section v-if="details[visit.id]!.clinicalNotes.length" class="detail-group"><h3><PvIcon name="i-lucide-clipboard-list" /> Clinical notes</h3><p>{{ details[visit.id]!.clinicalNotes.map(item => item.text).join(', ') }}</p></section>
+                  <section v-if="details[visit.id]!.additionalInstructionItems.length || details[visit.id]!.additionalInstructions" class="detail-group"><h3><PvIcon name="i-lucide-info" /> Additional instructions</h3><p>{{ [...details[visit.id]!.additionalInstructionItems.map(item => item.text), ...(details[visit.id]!.additionalInstructions ? [details[visit.id]!.additionalInstructions] : [])].join(', ') }}</p></section>
+                  <section v-if="details[visit.id]!.diagnostics.length" class="detail-group"><h3><PvIcon name="i-lucide-microscope" /> Diagnostics</h3><p>{{ details[visit.id]!.diagnostics.map(item => item.text).join(', ') }}</p></section>
+                  <section v-if="details[visit.id]!.investigations.length" class="detail-group"><h3><PvIcon name="i-lucide-microscope" /> Investigations</h3><p>{{ details[visit.id]!.investigations.map(item => item.text).join(', ') }}</p></section>
+                  <PvButton :to="'/treatments/' + visit.id + '/print'" color="neutral" variant="outline" icon="i-lucide-file-text" class="visit-prescription-link">Open prescription</PvButton>
                 </template>
               </div>
             </article>
           </div>
-          <div v-else class="history-empty"><span><UIcon name="i-lucide-calendar-x" /></span><h3>No visit history yet</h3><p>Treatments recorded for this patient will appear here.</p></div>
+          <div v-else class="history-empty"><span><PvIcon name="i-lucide-calendar-x" /></span><h3>No visit history yet</h3><p>Treatments recorded for this patient will appear here.</p></div>
         </section>
         <footer class="history-print-footer"><span>RoghtiaSystem · Patient medical history</span><span v-if="printTimestamp">Printed {{ printTimestamp }}</span></footer>
       </article>

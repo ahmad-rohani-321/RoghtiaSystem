@@ -1,0 +1,2 @@
+<script setup lang="ts">import ToggleSwitch from 'primevue/toggleswitch'; const model=defineModel<boolean>(); defineProps<{ label?: string; disabled?: boolean }>()</script>
+<template><label class="pv-check"><ToggleSwitch v-model="model" :disabled="disabled" /><span v-if="label">{{ label }}</span></label></template>

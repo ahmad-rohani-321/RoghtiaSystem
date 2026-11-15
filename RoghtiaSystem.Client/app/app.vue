@@ -1,5 +1,5 @@
-<script setup>
-import { en } from '@nuxt/ui/locale'
-const locale = en
+<script setup lang="ts">
+import Toast from 'primevue/toast'
+import ConfirmDialog from 'primevue/confirmdialog'
 </script>
-<template><UApp :locale="locale"><NuxtLayout><NuxtPage /></NuxtLayout></UApp></template>
+<template><Toast position="top-right" /><ConfirmDialog /><NuxtLayout><NuxtPage /></NuxtLayout></template>

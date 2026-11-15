@@ -1,0 +1,2 @@
+<script setup lang="ts">defineProps<{ label?: string; name?: string; required?: boolean; help?: string; hint?: string; error?: string }>()</script>
+<template><div class="pv-field"><label v-if="label" :for="name">{{ label }}<span v-if="required" aria-hidden="true"> *</span><small v-if="hint">{{ hint }}</small></label><slot /><small v-if="error" class="pv-field-error" role="alert">{{ error }}</small><small v-else-if="help" class="pv-field-help">{{ help }}</small></div></template>

@@ -1,0 +1,1 @@
+import{_ as t}from"./DlAUqK2U.js";import{o,c as r,r as n}from"#entry";const s={},a={class:"print-layout"};function c(e,_){return o(),r("main",a,[n(e.$slots,"default",{},void 0,!0)])}const i=t(s,[["render",c],["__scopeId","data-v-3eb1498a"]]);export{i as default};

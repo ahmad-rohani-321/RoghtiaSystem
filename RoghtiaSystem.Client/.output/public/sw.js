@@ -1,4 +1,4 @@
-const CACHE_NAME = 'e-roghtia-static-v1'
+const CACHE_NAME = 'roghtiasystem-static-v1'
 const OFFLINE_URL = '/offline.html'
 const PRECACHE_URLS = [OFFLINE_URL, '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-maskable-512.png']
 
@@ -7,7 +7,7 @@ self.addEventListener('install', (event) => {
 })
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('e-roghtia-') && key !== CACHE_NAME).map(key => caches.delete(key)))).then(() => self.clients.claim()))
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => (key.startsWith('e-roghtia-') || key.startsWith('roghtiasystem-')) && key !== CACHE_NAME).map(key => caches.delete(key)))).then(() => self.clients.claim()))
 })
 
 self.addEventListener('fetch', (event) => {

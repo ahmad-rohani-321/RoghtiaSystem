@@ -93,7 +93,7 @@ function updatePIN(value) {
   <main class="reset-page" aria-labelledby="reset-title">
     <section class="reset-card">
       <div class="reset-intro">
-        <span class="brand-icon reset-logo" aria-hidden="true"><UIcon name="i-lucide-heart-pulse" /></span>
+        <span class="brand-icon reset-logo" aria-hidden="true"><PvIcon name="i-lucide-heart-pulse" /></span>
         <span class="reset-brand">RoghtiaSystem<span>.</span></span>
         <h1 id="reset-title">Reset password</h1>
         <p v-if="step === 'verify'">Enter your username and the PIN you chose when creating your account.</p>
@@ -101,32 +101,32 @@ function updatePIN(value) {
         <p v-else>Your password has changed. Sign in with your new password.</p>
       </div>
 
-      <UForm v-if="step === 'verify'" :state="verification" :validate="validateVerification" :disabled="pending" novalidate class="reset-form" @submit="verify" @error="focusError">
-        <UFormField label="Username" name="userName" required>
-          <UInput v-model="verification.userName" name="userName" autocomplete="username" autocapitalize="none" :spellcheck="false" placeholder="Enter your username" icon="i-lucide-user-round" size="xl" class="w-full" :ui="{ base: 'reset-input' }" @update:model-value="message = ''" />
-        </UFormField>
-        <UFormField label="PIN" name="pinCode" required help="6 to 10 digits">
-          <UInput v-model="verification.pinCode" name="pinCode" type="text" inputmode="numeric" dir="ltr" autocomplete="off" pattern="[0-9]*" maxlength="10" placeholder="Enter your PIN" icon="i-lucide-key-round" size="xl" class="w-full" :ui="{ base: 'reset-input' }" @update:model-value="updatePIN" />
-        </UFormField>
+      <PvForm v-if="step === 'verify'" :state="verification" :validate="validateVerification" :disabled="pending" novalidate class="reset-form" @submit="verify" @error="focusError">
+        <PvFormField label="Username" name="userName" required>
+          <PvInput v-model="verification.userName" name="userName" autocomplete="username" autocapitalize="none" :spellcheck="false" placeholder="Enter your username" icon="i-lucide-user-round" size="xl" class="w-full" :ui="{ base: 'reset-input' }" @update:model-value="message = ''" />
+        </PvFormField>
+        <PvFormField label="PIN" name="pinCode" required help="6 to 10 digits">
+          <PvInput v-model="verification.pinCode" name="pinCode" type="text" inputmode="numeric" dir="ltr" autocomplete="off" pattern="[0-9]*" maxlength="10" placeholder="Enter your PIN" icon="i-lucide-key-round" size="xl" class="w-full" :ui="{ base: 'reset-input' }" @update:model-value="updatePIN" />
+        </PvFormField>
         <p v-if="message" class="reset-message" role="alert">{{ message }}</p>
-        <UButton type="submit" size="xl" block :loading="pending" :disabled="pending" trailing-icon="i-lucide-arrow-right" class="reset-submit">Verify PIN</UButton>
-      </UForm>
+        <PvButton type="submit" size="xl" block :loading="pending" :disabled="pending" trailing-icon="i-lucide-arrow-right" class="reset-submit">Verify PIN</PvButton>
+      </PvForm>
 
-      <UForm v-else-if="step === 'replace'" :state="replacement" :validate="validateReplacement" :disabled="pending" novalidate class="reset-form" @submit="resetPassword" @error="focusError">
-        <UFormField label="New password" name="newPassword" required>
-          <UInput v-model="replacement.newPassword" name="newPassword" :type="showPassword ? 'text' : 'password'" autocomplete="new-password" placeholder="Enter new password" icon="i-lucide-lock-keyhole" size="xl" class="w-full" :ui="{ base: 'reset-input' }" @update:model-value="message = ''">
-            <template #trailing><UButton type="button" color="neutral" variant="ghost" size="sm" :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'" :aria-label="showPassword ? 'Hide password' : 'Show password'" :aria-pressed="showPassword" @click="showPassword = !showPassword" /></template>
-          </UInput>
-        </UFormField>
-        <UFormField label="Confirm new password" name="confirmPassword" required>
-          <UInput v-model="replacement.confirmPassword" name="confirmPassword" :type="showPassword ? 'text' : 'password'" autocomplete="new-password" placeholder="Confirm new password" icon="i-lucide-lock-keyhole" size="xl" class="w-full" :ui="{ base: 'reset-input' }" @update:model-value="message = ''" />
-        </UFormField>
+      <PvForm v-else-if="step === 'replace'" :state="replacement" :validate="validateReplacement" :disabled="pending" novalidate class="reset-form" @submit="resetPassword" @error="focusError">
+        <PvFormField label="New password" name="newPassword" required>
+          <PvInput v-model="replacement.newPassword" name="newPassword" :type="showPassword ? 'text' : 'password'" autocomplete="new-password" placeholder="Enter new password" icon="i-lucide-lock-keyhole" size="xl" class="w-full" :ui="{ base: 'reset-input' }" @update:model-value="message = ''">
+            <template #trailing><PvButton type="button" color="neutral" variant="ghost" size="sm" :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'" :aria-label="showPassword ? 'Hide password' : 'Show password'" :aria-pressed="showPassword" @click="showPassword = !showPassword" /></template>
+          </PvInput>
+        </PvFormField>
+        <PvFormField label="Confirm new password" name="confirmPassword" required>
+          <PvInput v-model="replacement.confirmPassword" name="confirmPassword" :type="showPassword ? 'text' : 'password'" autocomplete="new-password" placeholder="Confirm new password" icon="i-lucide-lock-keyhole" size="xl" class="w-full" :ui="{ base: 'reset-input' }" @update:model-value="message = ''" />
+        </PvFormField>
         <p v-if="message" class="reset-message" role="alert">{{ message }}</p>
-        <UButton type="submit" size="xl" block :loading="pending" :disabled="pending" trailing-icon="i-lucide-arrow-right" class="reset-submit">Change password</UButton>
-        <UButton type="button" color="neutral" variant="ghost" size="lg" block :disabled="pending" @click="step = 'verify'">Back to PIN verification</UButton>
-      </UForm>
+        <PvButton type="submit" size="xl" block :loading="pending" :disabled="pending" trailing-icon="i-lucide-arrow-right" class="reset-submit">Change password</PvButton>
+        <PvButton type="button" color="neutral" variant="ghost" size="lg" block :disabled="pending" @click="step = 'verify'">Back to PIN verification</PvButton>
+      </PvForm>
 
-      <div v-else class="reset-done" role="status"><UIcon name="i-lucide-circle-check" aria-hidden="true" /><p>New password saved. Previous sessions have ended.</p></div>
+      <div v-else class="reset-done" role="status"><PvIcon name="i-lucide-circle-check" aria-hidden="true" /><p>New password saved. Previous sessions have ended.</p></div>
       <p class="reset-switch"><NuxtLink to="/login">Return to sign in</NuxtLink></p>
     </section>
   </main>

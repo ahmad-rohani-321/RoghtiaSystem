@@ -1,0 +1,1 @@
+import{aK as t}from"#entry";function c(){const o=t();return{add(r){o.add({severity:r.color==="error"?"error":r.color==="warning"?"warn":r.color==="success"?"success":"info",summary:r.title,detail:r.description,life:r.duration||4e3})}}}export{c as u};

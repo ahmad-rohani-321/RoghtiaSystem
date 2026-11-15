@@ -60,34 +60,34 @@ watch(credentials, () => { serviceMessage.value = '' })
   <main class="login-page" aria-labelledby="login-title">
     <section class="login-card">
       <div class="login-intro">
-        <span class="brand-icon login-logo" aria-hidden="true"><UIcon name="i-lucide-heart-pulse" /></span>
+        <span class="brand-icon login-logo" aria-hidden="true"><PvIcon name="i-lucide-heart-pulse" /></span>
         <span class="login-brand">RoghtiaSystem<span>.</span></span>
         <h1 id="login-title">{{ isRegister ? 'Create an account' : 'Sign in to your account' }}</h1>
         <p>{{ isRegister ? 'Choose a username, password and recovery PIN for your new account.' : 'Enter your username and password to sign in.' }}</p>
       </div>
 
-      <UForm :state="credentials" :validate="validate" :disabled="pending" novalidate class="login-form" @submit="submit" @error="focusError">
-        <UFormField label="Username" name="username" required>
-          <UInput v-model="credentials.username" name="username" autocomplete="username" autocapitalize="none" :spellcheck="false" placeholder="Enter your username" icon="i-lucide-user-round" size="xl" class="w-full" :ui="{ base: 'login-input' }" />
-        </UFormField>
+      <PvForm :state="credentials" :validate="validate" :disabled="pending" novalidate class="login-form" @submit="submit" @error="focusError">
+        <PvFormField label="Username" name="username" required>
+          <PvInput v-model="credentials.username" name="username" autocomplete="username" autocapitalize="none" :spellcheck="false" placeholder="Enter your username" icon="i-lucide-user-round" size="xl" class="w-full" :ui="{ base: 'login-input' }" />
+        </PvFormField>
 
-        <UFormField label="Password" name="password" required>
-          <UInput v-model="credentials.password" name="password" :type="showPassword ? 'text' : 'password'" :autocomplete="isRegister ? 'new-password' : 'current-password'" placeholder="Enter your password" icon="i-lucide-lock-keyhole" size="xl" class="w-full" :ui="{ base: 'login-input' }">
+        <PvFormField label="Password" name="password" required>
+          <PvInput v-model="credentials.password" name="password" :type="showPassword ? 'text' : 'password'" :autocomplete="isRegister ? 'new-password' : 'current-password'" placeholder="Enter your password" icon="i-lucide-lock-keyhole" size="xl" class="w-full" :ui="{ base: 'login-input' }">
             <template #trailing>
-              <UButton type="button" color="neutral" variant="ghost" size="sm" :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'" :aria-label="showPassword ? 'Hide password' : 'Show password'" :aria-pressed="showPassword" @click="showPassword = !showPassword" />
+              <PvButton type="button" color="neutral" variant="ghost" size="sm" :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'" :aria-label="showPassword ? 'Hide password' : 'Show password'" :aria-pressed="showPassword" @click="showPassword = !showPassword" />
             </template>
-          </UInput>
-        </UFormField>
+          </PvInput>
+        </PvFormField>
 
-        <UFormField v-if="isRegister" label="Password recovery PIN" name="pinCode" required help="6 to 10 digits. Keep this PIN in a safe place.">
-          <UInput v-model="credentials.pinCode" name="pinCode" type="text" inputmode="numeric" dir="ltr" autocomplete="off" pattern="[0-9]*" maxlength="10" placeholder="6–10 digits" icon="i-lucide-key-round" size="xl" class="w-full" :ui="{ base: 'login-input' }" @update:model-value="value => credentials.pinCode = String(value || '').replace(/[^0-9]/g, '').slice(0, 10)" />
-        </UFormField>
+        <PvFormField v-if="isRegister" label="Password recovery PIN" name="pinCode" required help="6 to 10 digits. Keep this PIN in a safe place.">
+          <PvInput v-model="credentials.pinCode" name="pinCode" type="text" inputmode="numeric" dir="ltr" autocomplete="off" pattern="[0-9]*" maxlength="10" placeholder="6–10 digits" icon="i-lucide-key-round" size="xl" class="w-full" :ui="{ base: 'login-input' }" @update:model-value="value => credentials.pinCode = String(value || '').replace(/[^0-9]/g, '').slice(0, 10)" />
+        </PvFormField>
 
-        <UCheckbox v-if="!isRegister" v-model="rememberMe" label="Remember me" name="rememberMe" />
+        <PvCheckbox v-if="!isRegister" v-model="rememberMe" label="Remember me" name="rememberMe" />
         <NuxtLink v-if="!isRegister" to="/reset-password" class="forgot-link">Forgot password?</NuxtLink>
         <p v-if="serviceMessage" class="login-message" role="alert">{{ serviceMessage }}</p>
-        <UButton type="submit" size="xl" block :loading="pending" :disabled="pending" trailing-icon="i-lucide-arrow-right" class="login-submit">{{ isRegister ? 'Create account' : 'Sign in' }}</UButton>
-      </UForm>
+        <PvButton type="submit" size="xl" block :loading="pending" :disabled="pending" trailing-icon="i-lucide-arrow-right" class="login-submit">{{ isRegister ? 'Create account' : 'Sign in' }}</PvButton>
+      </PvForm>
       <p class="login-switch"><span>{{ isRegister ? 'Already have an account?' : 'Need an account?' }}</span><NuxtLink :to="isRegister ? '/login' : '/register'">{{ isRegister ? 'Sign in to your account' : 'Create an account' }}</NuxtLink></p>
     </section>
   </main>

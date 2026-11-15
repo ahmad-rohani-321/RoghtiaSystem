@@ -50,29 +50,29 @@ onBeforeUnmount(releasePreview)
 </script>
 
 <template>
-  <UFormField :label="label" :name="name" :error="localError || undefined" size="lg" class="settings-image-field" :ui="{ label: 'text-base' }">
+  <PvFormField :label="label" :name="name" :error="localError || undefined" size="lg" class="settings-image-field" :ui="{ label: 'text-base' }">
     <div class="image-editor">
       <div class="image-preview" :class="{ portrait }">
         <img v-if="preview && !imageFailed" :src="preview" :alt="label" @error="imageFailed = true">
         <div v-else class="image-placeholder">
-          <UIcon :name="portrait ? 'i-lucide-user-round' : 'i-lucide-image'" aria-hidden="true" />
+          <PvIcon :name="portrait ? 'i-lucide-user-round' : 'i-lucide-image'" aria-hidden="true" />
           <span>{{ removed ? 'Image will be removed' : 'No image selected' }}</span>
         </div>
       </div>
       <p class="image-description">PNG, JPEG or WebP · up to 2 MB</p>
       <p v-if="file" class="image-filename" dir="auto">{{ file.name }}</p>
-      <UFileUpload :model-value="file" :name="name" :disabled="disabled" accept="image/png,image/jpeg,image/webp" :multiple="false" :preview="false" :dropzone="false" class="w-full min-w-0" reset @update:model-value="select">
+      <PvFileUpload :model-value="file" :name="name" :disabled="disabled" accept="image/png,image/jpeg,image/webp" :multiple="false" :preview="false" :dropzone="false" class="w-full min-w-0" reset @update:model-value="select">
         <template #default="{ open: chooseFile }">
-          <UButton type="button" color="neutral" variant="outline" size="lg" block icon="i-lucide-upload" :disabled="disabled" :aria-label="`${label}: Choose image`" :aria-invalid="!!localError" :aria-describedby="localError ? errorId : undefined" @click="chooseFile()">Choose image</UButton>
+          <PvButton type="button" color="neutral" variant="outline" size="lg" block icon="i-lucide-upload" :disabled="disabled" :aria-label="`${label}: Choose image`" :aria-invalid="!!localError" :aria-describedby="localError ? errorId : undefined" @click="chooseFile()">Choose image</PvButton>
         </template>
-      </UFileUpload>
+      </PvFileUpload>
       <span :id="errorId" class="sr-only" role="status" aria-live="polite">{{ localError }}</span>
       <div v-if="preview || file || removed" class="image-actions">
-        <UButton v-if="preview" type="button" color="neutral" variant="ghost" size="sm" icon="i-lucide-trash-2" :disabled="disabled" :aria-label="`${label}: Remove image`" @click="remove">Remove</UButton>
-        <UButton v-if="file || removed" type="button" color="neutral" variant="ghost" size="sm" icon="i-lucide-undo-2" :disabled="disabled" @click="undo">Restore</UButton>
+        <PvButton v-if="preview" type="button" color="neutral" variant="ghost" size="sm" icon="i-lucide-trash-2" :disabled="disabled" :aria-label="`${label}: Remove image`" @click="remove">Remove</PvButton>
+        <PvButton v-if="file || removed" type="button" color="neutral" variant="ghost" size="sm" icon="i-lucide-undo-2" :disabled="disabled" @click="undo">Restore</PvButton>
       </div>
     </div>
-  </UFormField>
+  </PvFormField>
 </template>
 
 <style scoped>

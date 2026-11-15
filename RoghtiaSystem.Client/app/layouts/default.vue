@@ -1,7 +1,7 @@
 <script setup>
 const colorMode = useColorMode()
 const auth = useAuth()
-const toast = useToast()
+const toast = useAppToast()
 const doctor = useDoctorInformation()
 const passwordOpen = ref(false)
 const pinOpen = ref(false)
@@ -20,12 +20,12 @@ const menu = computed(() => [[{ type: 'label', label: displayName.value, descrip
   <div class="app-shell">
     <a href="#main" class="skip-link">Skip to main content</a>
     <header class="topbar">
-      <NuxtLink to="/" class="brand"><span class="brand-icon"><UIcon name="i-lucide-heart-pulse" /></span><span><strong>RoghtiaSystem<span class="brand-dot">.</span></strong><small>Your partner in care</small></span></NuxtLink>
+      <NuxtLink to="/" class="brand"><span class="brand-icon"><PvIcon name="i-lucide-heart-pulse" /></span><span><strong>RoghtiaSystem<span class="brand-dot">.</span></strong><small>Your partner in care</small></span></NuxtLink>
       <BottomNavigation />
       <div class="header-actions">
         <PwaInstallPrompt />
-        <UTooltip text="Toggle color theme"><UButton :icon="colorMode.value === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'" color="neutral" variant="ghost" aria-label="Toggle color theme" @click="colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'" /></UTooltip>
-        <UDropdownMenu :items="menu" :ui="{ content: 'w-64 max-w-[calc(100vw-1.5rem)]', itemLabel: 'whitespace-normal break-words', itemDescription: 'break-all' }"><button type="button" class="profile" aria-label="Account options"><UAvatar :src="doctor.information.value?.doctorPhoto || undefined" :alt="displayName" :text="initials" class="avatar" :ui="{ image: 'size-full object-cover', fallback: 'text-base' }" /><span class="profile-copy"><strong>{{ displayName }}</strong><small dir="auto">{{ username }}</small></span><UIcon name="i-lucide-chevron-down" /></button></UDropdownMenu>
+        <PvTooltip text="Toggle color theme"><PvButton :icon="colorMode.value === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'" color="neutral" variant="ghost" aria-label="Toggle color theme" @click="colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'" /></PvTooltip>
+        <PvDropdownMenu :items="menu" :ui="{ content: 'w-64 max-w-[calc(100vw-1.5rem)]', itemLabel: 'whitespace-normal break-words', itemDescription: 'break-all' }"><button type="button" class="profile" aria-label="Account options"><PvAvatar :src="doctor.information.value?.doctorPhoto || undefined" :alt="displayName" :text="initials" class="avatar" :ui="{ image: 'size-full object-cover', fallback: 'text-base' }" /><span class="profile-copy"><strong>{{ displayName }}</strong><small dir="auto">{{ username }}</small></span><PvIcon name="i-lucide-chevron-down" /></button></PvDropdownMenu>
       </div>
     </header>
     <main id="main" class="main-container"><slot /></main>

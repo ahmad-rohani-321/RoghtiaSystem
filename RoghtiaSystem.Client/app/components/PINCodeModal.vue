@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { FormError, FormErrorEvent } from '@nuxt/ui'
+import type { FormError, FormErrorEvent } from '~/types/ui'
 
 const open = defineModel<boolean>('open', { default: false })
 const auth = useAuth()
-const toast = useToast()
+const toast = useAppToast()
 const form = useTemplateRef('pinForm')
 const pending = ref(false)
 const serviceMessage = ref('')
@@ -66,23 +66,23 @@ watch(credentials, () => { serviceMessage.value = '' })
 </script>
 
 <template>
-  <UModal :open="open" title="Recovery PIN" description="Enter your current password and choose a PIN with 6 to 10 digits. Keep this PIN in a safe place." :close="!pending" :dismissible="!pending" dir="ltr" :ui="{ content: 'max-w-lg min-w-0', wrapper: 'min-w-0 pe-8', body: 'min-w-0 min-h-0', title: 'text-lg break-words', description: 'text-base leading-7 break-words' }" @update:open="value => { if (!pending) open = value }">
+  <PvModal :open="open" title="Recovery PIN" description="Enter your current password and choose a PIN with 6 to 10 digits. Keep this PIN in a safe place." :close="!pending" :dismissible="!pending" dir="ltr" :ui="{ content: 'max-w-lg min-w-0', wrapper: 'min-w-0 pe-8', body: 'min-w-0 min-h-0', title: 'text-lg break-words', description: 'text-base leading-7 break-words' }" @update:open="value => { if (!pending) open = value }">
     <template #body>
-      <UForm ref="pinForm" :state="credentials" :validate="validate" :disabled="pending" novalidate class="pin-form" @submit="submit" @error="focusError">
-        <UFormField label="Current password" name="currentPassword" required>
-          <UInput v-model="credentials.currentPassword" name="currentPassword" type="password" autocomplete="current-password" placeholder="Enter your current password" icon="i-lucide-lock-keyhole" size="xl" class="w-full" :ui="{ base: 'pin-input' }" />
-        </UFormField>
-        <UFormField label="PIN" name="pinCode" required help="6 to 10 digits">
-          <UInput v-model="credentials.pinCode" name="pinCode" type="text" inputmode="numeric" dir="ltr" autocomplete="off" pattern="[0-9]*" maxlength="10" placeholder="Enter new PIN" icon="i-lucide-key-round" size="xl" class="w-full" :ui="{ base: 'pin-input' }" @update:model-value="value => credentials.pinCode = String(value || '').replace(/[^0-9]/g, '').slice(0, 10)" />
-        </UFormField>
+      <PvForm ref="pinForm" :state="credentials" :validate="validate" :disabled="pending" novalidate class="pin-form" @submit="submit" @error="focusError">
+        <PvFormField label="Current password" name="currentPassword" required>
+          <PvInput v-model="credentials.currentPassword" name="currentPassword" type="password" autocomplete="current-password" placeholder="Enter your current password" icon="i-lucide-lock-keyhole" size="xl" class="w-full" :ui="{ base: 'pin-input' }" />
+        </PvFormField>
+        <PvFormField label="PIN" name="pinCode" required help="6 to 10 digits">
+          <PvInput v-model="credentials.pinCode" name="pinCode" type="text" inputmode="numeric" dir="ltr" autocomplete="off" pattern="[0-9]*" maxlength="10" placeholder="Enter new PIN" icon="i-lucide-key-round" size="xl" class="w-full" :ui="{ base: 'pin-input' }" @update:model-value="value => credentials.pinCode = String(value || '').replace(/[^0-9]/g, '').slice(0, 10)" />
+        </PvFormField>
         <p v-if="serviceMessage" class="pin-message" role="alert">{{ serviceMessage }}</p>
         <div class="pin-actions">
-          <UButton type="submit" size="lg" icon="i-lucide-save" :loading="pending" :disabled="pending">Save PIN</UButton>
-          <UButton type="button" size="lg" color="neutral" variant="outline" :disabled="pending" @click="open = false">Cancel</UButton>
+          <PvButton type="submit" size="lg" icon="i-lucide-save" :loading="pending" :disabled="pending">Save PIN</PvButton>
+          <PvButton type="button" size="lg" color="neutral" variant="outline" :disabled="pending" @click="open = false">Cancel</PvButton>
         </div>
-      </UForm>
+      </PvForm>
     </template>
-  </UModal>
+  </PvModal>
 </template>
 
 <style scoped>

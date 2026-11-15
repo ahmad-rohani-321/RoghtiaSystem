@@ -70,8 +70,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <UTooltip :text="installed ? 'RoghtiaSystem is installed' : 'Install RoghtiaSystem'">
-    <UButton
+  <PvTooltip :text="installed ? 'RoghtiaSystem is installed' : 'Install RoghtiaSystem'">
+    <PvButton
       v-if="!installed"
       type="button"
       color="neutral"
@@ -83,24 +83,24 @@ onBeforeUnmount(() => {
       @click="showInstallHelp"
     >
       <span>Install</span>
-    </UButton>
-    <UButton v-else type="button" color="primary" variant="soft" icon="i-lucide-circle-check" aria-label="RoghtiaSystem is installed" class="pwa-install-button">
+    </PvButton>
+    <PvButton v-else type="button" color="primary" variant="soft" icon="i-lucide-circle-check" aria-label="RoghtiaSystem is installed" class="pwa-install-button">
       <span>Installed</span>
-    </UButton>
-  </UTooltip>
+    </PvButton>
+  </PvTooltip>
 
-  <UModal v-model:open="helpOpen" title="Install RoghtiaSystem" description="Add the clinic application to your device for quick access." dir="ltr">
+  <PvModal v-model:open="helpOpen" title="Install RoghtiaSystem" description="Add the clinic application to your device for quick access." dir="ltr">
     <template #body>
       <div class="install-help">
-        <span class="install-help-icon"><UIcon :name="secureOrigin ? 'i-lucide-smartphone' : 'i-lucide-shield-alert'" /></span>
+        <span class="install-help-icon"><PvIcon :name="secureOrigin ? 'i-lucide-smartphone' : 'i-lucide-shield-alert'" /></span>
         <p>{{ installInstructions }}</p>
         <p v-if="secureOrigin" class="install-help-note">If you just opened this site, reload it once to let the browser detect the app.</p>
       </div>
     </template>
     <template #footer>
-      <UButton type="button" color="primary" @click="helpOpen = false">Got it</UButton>
+      <PvButton type="button" color="primary" @click="helpOpen = false">Got it</PvButton>
     </template>
-  </UModal>
+  </PvModal>
 </template>
 
 <style scoped>

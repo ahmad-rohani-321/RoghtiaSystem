@@ -1,0 +1,2 @@
+<script setup lang="ts">import Dialog from 'primevue/dialog'; const open=defineModel<boolean>('open',{default:false}); defineProps<{title?:string;description?:string;dismissible?:boolean;close?:boolean}>()</script>
+<template><Dialog v-model:visible="open" modal :header="title" :closable="close !== false" :dismissable-mask="dismissible !== false" class="pv-dialog"><p v-if="description" class="pv-dialog-description">{{ description }}</p><slot name="body"><slot /></slot><template v-if="$slots.footer" #footer><slot name="footer" /></template></Dialog></template>

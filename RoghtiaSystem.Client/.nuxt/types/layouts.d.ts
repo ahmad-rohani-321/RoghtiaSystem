@@ -1,18 +1,7 @@
-import type { ComputedRef, MaybeRef } from "vue";
-import type { ComponentProps } from "../../node_modules/vue-component-type-helpers/index.js";
-
+import type { ComputedRef, MaybeRef } from 'vue'
+export type LayoutKey = "default" | "print"
 declare module 'nuxt/app' {
-  interface NuxtLayouts {
-    default: ComponentProps<typeof import("D:/Projects/RoghtiaSystem/RoghtiaSystem.Client/app/layouts/default.vue").default>
-    print: ComponentProps<typeof import("D:/Projects/RoghtiaSystem/RoghtiaSystem.Client/app/layouts/print.vue").default>
-  }
-  export type LayoutKey = keyof NuxtLayouts extends never ? string : keyof NuxtLayouts
   interface PageMeta {
-    layout?: MaybeRef<LayoutKey | false> | ComputedRef<LayoutKey | false> | {
-      [K in LayoutKey]: {
-        name?: MaybeRef<K | false> | ComputedRef<K | false>
-        props?: NuxtLayouts[K]
-      }
-    }[LayoutKey]
+    layout?: MaybeRef<LayoutKey | false> | ComputedRef<LayoutKey | false>
   }
 }

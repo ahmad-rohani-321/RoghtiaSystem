@@ -15,13 +15,15 @@
     <PackageJsonScriptsPostinstall Condition="$(PackageJsonScriptsPostinstall) == ''">nuxt prepare</PackageJsonScriptsPostinstall>
     <PackageJsonScriptsTestAuth Condition="$(PackageJsonScriptsTestAuth) == ''">node --test tests/auth.integration.test.mjs</PackageJsonScriptsTestAuth>
     <PackageJsonScriptsTypecheck Condition="$(PackageJsonScriptsTypecheck) == ''">nuxt typecheck</PackageJsonScriptsTypecheck>
-    <PackageJsonDependenciesIconifyJsonLucide Condition="$(PackageJsonDependenciesIconifyJsonLucide) == ''">^1.2.133</PackageJsonDependenciesIconifyJsonLucide>
     <PackageJsonDependenciesInternationalizedDate Condition="$(PackageJsonDependenciesInternationalizedDate) == ''">^3.12.4</PackageJsonDependenciesInternationalizedDate>
-    <PackageJsonDependenciesNuxtUi Condition="$(PackageJsonDependenciesNuxtUi) == ''">^4.11.1</PackageJsonDependenciesNuxtUi>
+    <PackageJsonDependenciesNuxtjsColorMode Condition="$(PackageJsonDependenciesNuxtjsColorMode) == ''">^4.1.0</PackageJsonDependenciesNuxtjsColorMode>
+    <PackageJsonDependenciesPrimeuixThemes Condition="$(PackageJsonDependenciesPrimeuixThemes) == ''">^1.2.5</PackageJsonDependenciesPrimeuixThemes>
+    <PackageJsonDependenciesPrimevueNuxtModule Condition="$(PackageJsonDependenciesPrimevueNuxtModule) == ''">^4.4.1</PackageJsonDependenciesPrimevueNuxtModule>
     <PackageJsonDependenciesLucideVueNext Condition="$(PackageJsonDependenciesLucideVueNext) == ''">^1.0.0</PackageJsonDependenciesLucideVueNext>
-    <PackageJsonDependenciesNuxt Condition="$(PackageJsonDependenciesNuxt) == ''">^4.6.1</PackageJsonDependenciesNuxt>
-    <PackageJsonDependenciesTailwindcss Condition="$(PackageJsonDependenciesTailwindcss) == ''">^4.3.3</PackageJsonDependenciesTailwindcss>
-    <PackageJsonDependenciesVue Condition="$(PackageJsonDependenciesVue) == ''">^3.5.42</PackageJsonDependenciesVue>
+    <PackageJsonDependenciesNuxt Condition="$(PackageJsonDependenciesNuxt) == ''">4.1.3</PackageJsonDependenciesNuxt>
+    <PackageJsonDependenciesPrimevue Condition="$(PackageJsonDependenciesPrimevue) == ''">^4.4.1</PackageJsonDependenciesPrimevue>
+    <PackageJsonDependenciesVue Condition="$(PackageJsonDependenciesVue) == ''">3.5.29</PackageJsonDependenciesVue>
+    <PackageJsonDevdependenciesNuxtViteBuilder Condition="$(PackageJsonDevdependenciesNuxtViteBuilder) == ''">4.1.3</PackageJsonDevdependenciesNuxtViteBuilder>
     <PackageJsonDevdependenciesTypesNode Condition="$(PackageJsonDevdependenciesTypesNode) == ''">^26.6.6</PackageJsonDevdependenciesTypesNode>
     <PackageJsonDevdependenciesEslint Condition="$(PackageJsonDevdependenciesEslint) == ''">^10.10.0</PackageJsonDevdependenciesEslint>
     <PackageJsonDevdependenciesEslintPluginOxlint Condition="$(PackageJsonDevdependenciesEslintPluginOxlint) == ''">~1.82.0</PackageJsonDevdependenciesEslintPluginOxlint>
@@ -31,6 +33,7 @@
     <PackageJsonDevdependenciesVueTsc Condition="$(PackageJsonDevdependenciesVueTsc) == ''">^3.3.14</PackageJsonDevdependenciesVueTsc>
     <PackageJsonOverridesNuxtDevtoolsSimpleGit Condition="$(PackageJsonOverridesNuxtDevtoolsSimpleGit) == ''">4.0.2</PackageJsonOverridesNuxtDevtoolsSimpleGit>
     <PackageJsonOverridesFontlessEsbuild Condition="$(PackageJsonOverridesFontlessEsbuild) == ''">0.28.2</PackageJsonOverridesFontlessEsbuild>
+    <PackageJsonOverridesVueBabelPluginJsx Condition="$(PackageJsonOverridesVueBabelPluginJsx) == ''">1.5.0</PackageJsonOverridesVueBabelPluginJsx>
     <PackageJsonEnginesNode Condition="$(PackageJsonEnginesNode) == ''">^22.18.0 || &gt;=24.12.0</PackageJsonEnginesNode>
   </PropertyGroup>
 </Project>

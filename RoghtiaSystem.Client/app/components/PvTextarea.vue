@@ -1,0 +1,2 @@
+<script setup lang="ts">import Textarea from 'primevue/textarea'; defineOptions({ inheritAttrs:false }); const model=defineModel<string | null | undefined>()</script>
+<template><Textarea v-model="model" v-bind="$attrs" /></template>
